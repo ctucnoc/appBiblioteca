@@ -6,6 +6,7 @@ import { SingInComponent } from './pages/sing-in/sing-in.component';
 import { SingOutComponent } from './pages/sing-out/sing-out.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [AuthLayoutComponent, SingInComponent, SingOutComponent],
@@ -15,6 +16,7 @@ import { MaterialModule } from '../material.module';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    SharedModule,
   ],
 })
 export class AuthModule {}
