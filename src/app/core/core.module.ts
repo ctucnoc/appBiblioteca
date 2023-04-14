@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { CoreRoutingModule } from './core-routing.module';
 import { CoreLayoutComponent } from './layout/core-layout/core-layout.component';
-
+import { MaterialModule } from '../material.module';
+import { CorePublicLayoutComponent } from './layout/core-public-layout/core-public-layout.component';
+import { CorePrivateLayoutComponent } from './layout/core-private-layout/core-private-layout.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
-    CoreLayoutComponent
+    CoreLayoutComponent,
+    CorePublicLayoutComponent,
+    CorePrivateLayoutComponent,
   ],
-  imports: [
-    CommonModule,
-    CoreRoutingModule
-  ]
+  imports: [CommonModule, CoreRoutingModule, MaterialModule, SharedModule],
 })
-export class CoreModule { }
+export class CoreModule {}

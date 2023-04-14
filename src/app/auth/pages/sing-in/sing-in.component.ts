@@ -1,5 +1,7 @@
-import { Component, SimpleChange } from '@angular/core';
+import { Component, ElementRef, SimpleChange, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sing-in',
@@ -7,31 +9,28 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./sing-in.component.scss'],
 })
 export class SingInComponent {
-  constructor(private _title: Title) {
+  public hide: boolean = true;
+  public msgError!: string;
+  public frmSingIn!: FormGroup;
+  @ViewChild('password') password!: ElementRef;
+  constructor(
+    private _title: Title,
+    private _formBuilder: FormBuilder,
+    private _router: Router
+  ) {
     console.log('crce constructor -> {}');
   }
 
-  ngOnChanges(simple: SimpleChange) {
-    console.log('crce ngOnChanges -> {} ' + simple);
-  }
-
   ngOnInit(): void {
+    // [formGroup]="frmSingIn" autocomplete="off"
+    this.frmSingIn = this._formBuilder.group({
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      idSubsidiary: ['', [Validators.required]],
+    });
     console.log('crce ngOnInit -> {} ' + this._title);
   }
-
-  ngAfterViewInit() {
-    console.log('crce ngAfterViewInit -> {} ');
-  }
-
-  ngDoCheck() {
-    console.log('crce ngDoCheck -> {} ');
-  }
-
-  ngOnDestroy(): void {
-    console.log('crce ngOnDestroy -> {} ');
-  }
-
-  ngAfterContentInit() {
-    console.log('crce ngAfterContentInit -> {} ');
+  public getIcon(): string {
+    return this.hide ? 'visibility' : 'visibility_off';
   }
 }

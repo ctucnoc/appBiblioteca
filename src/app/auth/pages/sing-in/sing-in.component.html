@@ -1,31 +1,56 @@
-<h1>hola mundo sistemas unsch</h1>
-<section>
-  <div class="example-label">Basic</div>
-  <div class="example-button-row">
-    <button mat-button>Basic</button>
-    <button mat-button color="primary">Primary</button>
-    <button mat-button color="accent">Accent</button>
-    <button mat-button color="warn">Warn</button>
-    <button mat-button disabled>Disabled</button>
-    <a mat-button href="https://www.google.com/" target="_blank">Link</a>
+<ng-container *ngIf="true">
+  <div class="container-form-login">
+    <form class="log-in-form" [formGroup]="frmSingIn" autocomplete="off">
+      <h3>Iniciar Sesión</h3>
+      <span
+        *ngIf="msgError"
+        class="full-width"
+        style="text-align: left; color: red"
+        >{{ msgError }}</span
+      >
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Usuario</mat-label>
+        <input
+          matInput
+          formControlName="username"
+          placeholder="Usuario"
+          type="text"
+        />
+        <button
+          type="button"
+          mat-button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          *ngIf="frmSingIn.value?.username"
+        >
+          <mat-icon matSuffix svgIcon="cancel"></mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Contraseña</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          formControlName="password"
+          placeholder="Contraseña"
+          type="text"
+        />
+        <button
+          type="button"
+          mat-button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+          *ngIf="frmSingIn.value?.password"
+        >
+          <mat-icon matSuffix [svgIcon]="getIcon()"></mat-icon>
+        </button>
+      </mat-form-field>
+      <button class="btn">Ingresar</button>
+    </form>
   </div>
-</section>
-
-<div>
-  <p>
-    <mat-form-field appearance="fill">
-      <mat-label>Fill form field</mat-label>
-      <input matInput placeholder="Placeholder" />
-      <mat-icon matSuffix svgIcon="twitter"></mat-icon>
-      <mat-hint>Hint</mat-hint>
-    </mat-form-field>
-  </p>
-  <p>
-    <mat-form-field appearance="outline">
-      <mat-label>Outline form field</mat-label>
-      <input matInput placeholder="Placeholder" />
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-      <mat-hint>Hint</mat-hint>
-    </mat-form-field>
-  </p>
-</div>
+</ng-container>

@@ -10,7 +10,11 @@ const routes: Routes = [
     component: BookCatalogLayoutComponent,
     children: [
       { path: 'book', component: BookComponent },
-      { path: 'author', component: AuthorComponent },
+      {
+        path: 'author',
+        component: AuthorComponent,
+        title: 'bilbioteca - autor',
+      },
     ],
   },
 ];

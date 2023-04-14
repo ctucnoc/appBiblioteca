@@ -143,56 +143,50 @@ export class IconModule {
     );
     this._matIconRegister.addSvgIcon(
       'logo',
-      this._domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/icons/menu/logo.svg'
-      )
+      this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/logo.svg')
     );
     this._matIconRegister.addSvgIcon(
       'sign_out',
       this._domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/icons/menu/sign_out.svg'
+        'assets/icons/sign_out.svg'
       )
     );
     this._matIconRegister.addSvgIcon(
       'caret_down',
       this._domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/icons/menu/caret_down.svg'
+        'assets/icons/caret_down.svg'
       )
     );
     this._matIconRegister.addSvgIcon(
       'notification',
       this._domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/icons/menu/notification.svg'
+        'assets/icons/notification.svg'
       )
     );
     this._matIconRegister.addSvgIcon(
       'info',
-      this._domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/icons/menu/info.svg'
-      )
+      this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/info.svg')
     );
     this._matIconRegister.addSvgIcon(
       'eye',
-      this._domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/icons/menu/eye.svg'
-      )
+      this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/eye.svg')
     );
     this._matIconRegister.addSvgIcon(
       'download',
       this._domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/icons/menu/download.svg'
+        'assets/icons/download.svg'
       )
     );
     this._matIconRegister.addSvgIcon(
       'search_solid',
       this._domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/icons/menu/search_solid.svg'
+        'assets/icons/search_solid.svg'
       )
     );
     this._matIconRegister.addSvgIcon(
       'print',
       this._domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/icons/menu/print.svg'
+        'assets/icons/print.svg'
       )
     );
   }

@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '',
     component: AuthLayoutComponent,
     children: [
-      { path: 'sing-in', component: SingInComponent },
+      { path: 'sing-in', component: SingInComponent, title: 'Iniciar Sessión' },
       { path: '', redirectTo: 'sing-in', pathMatch: 'full' },
       { path: 'sing-out', component: SingOutComponent },
     ],
