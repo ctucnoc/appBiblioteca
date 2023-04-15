@@ -1,0 +1,94 @@
+<div class="container">
+  <br />
+  <div class="row">
+    <div>
+      <a class="text-primary-600" href="javascript:void(0)">{{ title }}</a>
+    </div>
+    <div>
+      <strong style="padding-left: 10px; padding-right: 10px; font-size: 16px">
+        >
+      </strong>
+    </div>
+    <div>
+      <a class="text-primary-600" href="javascript:void(0)"
+        >Administrar Usuario</a
+      >
+    </div>
+  </div>
+  <div>
+    <h2 class="title-h2">Buscar Usuario</h2>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <button class="circule-button" mat-raised-button>
+      <mat-icon svgIcon="plus"></mat-icon>
+    </button>
+    <button
+      style="margin-left: 10px"
+      class="circule-button"
+      matTooltip="Borrar"
+      mat-raised-button
+    >
+      <mat-icon svgIcon="eraser"></mat-icon>
+    </button>
+
+    <mat-form-field class="search-form-field w-60">
+      <input
+        matInput
+        [(ngModel)]="searchKey"
+        placeholder="¿Buscar Usuario por palabra clave?"
+        autocomplete="off"
+      />
+    </mat-form-field>
+  </div>
+  <div class="mat-elevation-z8">
+    <table
+      *ngIf="totalElements"
+      mat-table
+      [dataSource]="lstMatDataSource"
+      matSort
+    >
+      <!-- Position Column -->
+      <ng-container matColumnDef="USUARIO">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >USUARIO</mat-header-cell
+        >
+        <mat-cell *matCellDef="let row">{{ row.identifier }}</mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="NOMBRE COMPLETO">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >NOMBRE COMPLET</mat-header-cell
+        >
+        <mat-cell *matCellDef="let row">{{ row.fullName }}</mat-cell>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="EMAIL">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >EMAIL</mat-header-cell
+        >
+        <mat-cell *matCellDef="let row">{{ row.email }}</mat-cell>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="ESTADO">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >ESTADO</mat-header-cell
+        >
+        <mat-cell *matCellDef="let row">{{ row.state }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="lstColumsTable"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: lstColumsTable"></mat-row>
+    </table>
+    <mat-paginator
+      [length]="totalElements"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

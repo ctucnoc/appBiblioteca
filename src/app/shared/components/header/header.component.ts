@@ -26,4 +26,8 @@ export class HeaderComponent {
   public goToRole(): void {
     this._router.navigate(['security/role']);
   }
+
+  public goToEditorial(): void {
+    this._router.navigate(['book-catalog/editorial']);
+  }
 }

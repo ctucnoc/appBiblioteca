@@ -9,12 +9,201 @@
 html,
 body {
   height: 100%;
-}
-body {
   margin: 0;
 }
 
 .full-width,
 table {
   width: 100%;
+}
+
+/**
+=====================================================================================================================
+--ESTILOS PARA EL CONTENEDOR DE NUESTRA PAGINA
+=====================================================================================================================
+*/
+
+/* Definición del contenedor de Bootstrap */
+.container {
+  width: 95%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+/* Definición del contenedor de ancho completo de Bootstrap */
+.container-fluid {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+/**
+=====================================================================================================================
+--ESTILOS PARA LAS FILAS ROW
+=====================================================================================================================
+*/
+
+/* Definición de la clase row de Bootstrap */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/**
+=====================================================================================================================
+--ESTILOS PARA LOS BOTONES
+=====================================================================================================================
+*/
+
+/* Estilos generales para todos los botones */
+.btn {
+  font-weight: bold;
+  border-radius: 20px;
+}
+
+/* Estilos para el botón con estilo primario */
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Estilos para el botón con estilo secundario */
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+/* Estilos para el botón con estilo de éxito */
+.btn-success {
+  background-color: #28a745;
+  color: #fff;
+}
+
+/* Estilos para el botón con estilo de peligro */
+.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Estilos para el botón con estilo de advertencia */
+.btn-warning {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+/* Estilos para el botón con estilo informativo */
+.btn-info {
+  background-color: #17a2b8;
+  color: #fff;
+}
+
+/* Estilos para el botón con estilo ligero */
+.btn-light {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+/* Estilos para el botón con estilo oscuro */
+.btn-dark {
+  background-color: #343a40;
+  color: #fff;
+}
+
+/* Estilos para el botón con estilo de enlace */
+.btn-link {
+  background-color: transparent;
+  color: #007bff;
+  border: none;
+}
+
+/* Estilos para un botón grande con borde */
+.btn-outline-primary.btn-lg {
+  border: 2px solid #007bff;
+  border-radius: 30px;
+  padding: 10px 30px;
+}
+
+/**
+=====================================================================================================================
+--ESTILOS PARA LOS TITULOS
+=====================================================================================================================
+*/
+/* Estilos generales para todos los títulos */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+}
+
+/* Estilos para el título de nivel 1 */
+h1 {
+  font-size: 3rem;
+}
+
+/* Estilos para el título de nivel 2 */
+h2 {
+  font-size: 2.5rem;
+}
+
+/* Estilos para el título de nivel 3 */
+h3 {
+  font-size: 2rem;
+}
+
+/* Estilos para el título de nivel 4 */
+h4 {
+  font-size: 1.5rem;
+}
+
+/* Estilos para el título de nivel 5 */
+h5 {
+  font-size: 1.25rem;
+}
+
+/* Estilos para el título de nivel 6 */
+h6 {
+  font-size: 1rem;
+}
+
+/**
+=====================================================================================================================
+--ESTILOS PARA LA CABECERA DE LA APLICACIÓN
+=====================================================================================================================
+*/
+
+.header-container {
+  margin-top: 4px;
+  height: 42px;
+  padding: 20px;
+  padding-left: 40px;
+  background: #ffffff;
+  border: red solid 1px;
+}
+
+/**
+=====================================================================================================================
+--ESTILOS PARA LOS TEXTOS
+=====================================================================================================================
+*/
+.text-primary-600 {
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ff9800;
+}
+
+.title-h2 {
+  font-size: 9px;
+  color: #ff9800;
+  font-weight: 800;
+}
+
+/**
+=====================================================================================================================
+--ESTILOS PARA LA DISTRIBUCION DE LOS OBJETOS
+=====================================================================================================================
+*/
+.display-flex {
+  display: flex;
 }

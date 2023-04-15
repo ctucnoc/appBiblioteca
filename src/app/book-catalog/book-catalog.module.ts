@@ -5,9 +5,25 @@ import { BookCatalogLayoutComponent } from './layout/book-catalog-layout/book-ca
 import { BookComponent } from './pages/book/book.component';
 import { AuthorComponent } from './pages/author/author.component';
 import { SharedModule } from '../shared/shared.module';
+import { EditorialComponent } from './pages/editorial/editorial.component';
+import { ListEditorialComponent } from './components/list-editorial/list-editorial.component';
+import { AddEditorialComponent } from './components/add-editorial/add-editorial.component';
+import { MaterialModule } from '../material.module';
 
 @NgModule({
-  declarations: [BookCatalogLayoutComponent, BookComponent, AuthorComponent],
-  imports: [CommonModule, BookCatalogRoutingModule, SharedModule],
+  declarations: [
+    BookCatalogLayoutComponent,
+    BookComponent,
+    AuthorComponent,
+    EditorialComponent,
+    ListEditorialComponent,
+    AddEditorialComponent,
+  ],
+  imports: [
+    CommonModule,
+    BookCatalogRoutingModule,
+    SharedModule,
+    MaterialModule,
+  ],
 })
 export class BookCatalogModule {}
