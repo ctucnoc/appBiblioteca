@@ -1,16 +1,18 @@
 import { Component, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AddUserComponent } from '../add-user/add-user.component';
 
-export interface user {
+export interface User {
   identifier?: string;
   fullName?: string;
   email?: string;
   state?: string;
 }
 
-const ELEMENT_DATA: user[] = [
+const ELEMENT_DATA: User[] = [
   {
     identifier: 'pbautistac',
     fullName: 'pablito bautista',
@@ -61,6 +63,7 @@ export class ListUserComponent {
     'NOMBRE COMPLETO',
     'EMAIL',
     'ESTADO',
+    'SELECCIONE',
   ];
 
   public searchKey!: string;
@@ -69,11 +72,24 @@ export class ListUserComponent {
   public totalElements!: number;
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(MatPaginator) matPaginator!: MatPaginator;
-  constructor() {}
+  constructor(private _dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.title = 'Seguridad';
     this.findByUser();
+  }
+
+  onCreater(row?: User) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '40%';
+    dialogConfig.height = '60%';
+    dialogConfig.data = row;
+    const dialogoRef = this._dialog.open(AddUserComponent, dialogConfig);
+    dialogoRef.afterClosed().subscribe((rpta) => {
+      console.log(rpta);
+    });
   }
 
   public findByUser(): void {

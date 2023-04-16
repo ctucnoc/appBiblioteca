@@ -1,1 +1,8 @@
-<p>add-editorial works!</p>
+<ng-container *ngIf="data">
+  <p>{{ data.id }}</p>
+  <p>{{ data.description }}</p>
+</ng-container>
+
+<button (click)="onClose()">Cerrar</button>
+
+<button (click)="onSend()">Enviar Información</button>
