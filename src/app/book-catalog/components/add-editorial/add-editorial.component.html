@@ -1,8 +1,31 @@
-<ng-container *ngIf="data">
-  <p>{{ data.id }}</p>
-  <p>{{ data.description }}</p>
-</ng-container>
-
-<button (click)="onClose()">Cerrar</button>
-
-<button (click)="onSend()">Enviar Información</button>
+<div class="container">
+  <form [formGroup]="frmEditorial" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <mat-form-field class="w-100">
+        <mat-label>Identificador</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Identificador"
+          formControlName="id"
+        />
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field class="w-100">
+        <mat-label>Descripción</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Descripción"
+          formControlName="description"
+        />
+        <mat-error> Por favor, ingrese una descripción </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <button type="button" (click)="onClose()">Cerrar</button>
+      <button type="submit" [disabled]="frmEditorial.invalid">Enviar</button>
+    </div>
+  </form>
+</div>

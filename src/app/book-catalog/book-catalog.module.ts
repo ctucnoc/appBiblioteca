@@ -9,6 +9,7 @@ import { EditorialComponent } from './pages/editorial/editorial.component';
 import { ListEditorialComponent } from './components/list-editorial/list-editorial.component';
 import { AddEditorialComponent } from './components/add-editorial/add-editorial.component';
 import { MaterialModule } from '../material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,8 @@ import { MaterialModule } from '../material.module';
     BookCatalogRoutingModule,
     SharedModule,
     MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
 })
 export class BookCatalogModule {}
