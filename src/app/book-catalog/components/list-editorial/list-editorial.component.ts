@@ -22,12 +22,14 @@ const ELEMENT_DATA: Editorial[] = [
   styleUrls: ['./list-editorial.component.scss'],
 })
 export class ListEditorialComponent {
+  public title!: string;
   public lstDataSource!: MatTableDataSource<any>;
   public lstColumsTable: string[] = ['ID', 'DESCRIPTION', 'SELECCIONAR'];
   public totalElements!: number;
   constructor(private _dialog: MatDialog) {}
 
   ngOnInit(): void {
+    this.title = 'Catalogo de Luibros';
     this.lstDataSource = new MatTableDataSource(ELEMENT_DATA);
     this.totalElements = ELEMENT_DATA.length;
   }
@@ -36,8 +38,7 @@ export class ListEditorialComponent {
     const _dialogConfig = new MatDialogConfig();
     _dialogConfig.disableClose = true;
     _dialogConfig.autoFocus = true;
-    _dialogConfig.width = '40%';
-    _dialogConfig.height = '50%';
+    _dialogConfig.width = '50%';
     _dialogConfig.data = row;
     const _dialogRef = this._dialog.open(AddEditorialComponent, _dialogConfig);
 

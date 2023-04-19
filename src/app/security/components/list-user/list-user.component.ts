@@ -83,8 +83,7 @@ export class ListUserComponent {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = '40%';
-    dialogConfig.height = '60%';
+    dialogConfig.width = '50%';
     dialogConfig.data = row;
     const dialogoRef = this._dialog.open(AddUserComponent, dialogConfig);
     dialogoRef.afterClosed().subscribe((rpta) => {

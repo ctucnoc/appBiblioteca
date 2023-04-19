@@ -10,6 +10,9 @@ import { ListEditorialComponent } from './components/list-editorial/list-editori
 import { AddEditorialComponent } from './components/add-editorial/add-editorial.component';
 import { MaterialModule } from '../material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ListAuthorComponent } from './components/list-author/list-author.component';
+import { AddAuthorComponent } from './components/add-author/add-author.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     EditorialComponent,
     ListEditorialComponent,
     AddEditorialComponent,
+    ListAuthorComponent,
+    AddAuthorComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +32,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
   ],
 })
 export class BookCatalogModule {}

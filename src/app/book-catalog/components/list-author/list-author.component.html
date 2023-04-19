@@ -10,15 +10,16 @@
     </div>
     <div>
       <span>
-        <a class="text-primary-600" href="">Administrar Editorial</a>
+        <a class="text-primary-600" href="javasript:void(0)"
+          >Administrar Autor</a
+        >
       </span>
     </div>
   </div>
   <div class="row">
-    <h2 class="text-sub-title">Buscar Editorial</h2>
+    <h2 class="text-sub-title">Buscar Autor</h2>
   </div>
 </div>
-
 <div class="container">
   <div class="row">
     <div class="mr-2">
@@ -41,62 +42,53 @@
   </div>
 </div>
 <div class="container">
-  <br />
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="lstDataSource">
-      <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
+    <table mat-table [dataSource]="lstMatDataSource" matSort>
       <!-- Position Column -->
       <ng-container matColumnDef="ID">
-        <th mat-header-cell fxFlex="20%" fxFlexAlign="center" *matHeaderCellDef>
-          IDENTIFICADOR
-        </th>
-        <td mat-cell fxFlex="20%" *matCellDef="let element">
-          {{ element.id }}
-        </td>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.id }}</mat-cell>
       </ng-container>
 
       <!-- Name Column -->
-      <ng-container matColumnDef="DESCRIPTION">
-        <th mat-header-cell fxFlex="70%" fxFlexAlign="center" *matHeaderCellDef>
-          DESCRIPCIÓN
-        </th>
-        <td mat-cell fxFlex="70%" *matCellDef="let element">
-          {{ element.description }}
-        </td>
-      </ng-container>
-
-      <!-- Name Column -->
-      <ng-container matColumnDef="SELECCIONAR">
-        <th
-          mat-header-cell
-          style="align-items: center"
-          fxFlex="10%"
-          fxFlexAlign="center"
-          *matHeaderCellDef
+      <ng-container matColumnDef="NOMBRE">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >NOMBRE</mat-header-cell
         >
-          SELECCIONAR
-        </th>
-        <td mat-cell fxFlex="10%" *matCellDef="let row">
+        <mat-cell *matCellDef="let row">{{ row.name }}</mat-cell>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="APELLIDOS">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >APELLIDOS</mat-header-cell
+        >
+        <mat-cell *matCellDef="let row">{{ row.lastName }}</mat-cell>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="SELECCIONE">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >SELECCIONE</mat-header-cell
+        >
+        <mat-cell *matCellDef="let row">
           <button mat-icon-button matTooltip="Editar" (click)="onCreater(row)">
             <mat-icon svgIcon="edit"></mat-icon>
           </button>
           <button mat-icon-button matTooltip="Eliminar">
             <mat-icon svgIcon="delete"></mat-icon>
           </button>
-        </td>
+        </mat-cell>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="lstColumsTable"></tr>
-      <tr mat-row *matRowDef="let row; columns: lstColumsTable"></tr>
+      <mat-header-row *matHeaderRowDef="lstColumsTable"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: lstColumsTable"></mat-row>
     </table>
-    <mat-divider></mat-divider>
     <mat-paginator
       [length]="totalElements"
-      [pageSize]="5"
-      [pageSizeOptions]="[5, 10, 15]"
-    >
-    </mat-paginator>
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      showFirstLastButtons
+    ></mat-paginator>
   </div>
 </div>

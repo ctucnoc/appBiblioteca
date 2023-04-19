@@ -49,4 +49,8 @@ export class AddEditorialComponent {
       description: row.description,
     });
   }
+
+  public onDisabled(): boolean {
+    return this.frmEditorial.invalid;
+  }
 }

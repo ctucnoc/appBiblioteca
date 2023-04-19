@@ -1,55 +1,42 @@
 <div class="container">
-  <br />
-  <div class="row">
-    <div>
-      <a class="text-primary-600" href="javascript:void(0)">{{ title }}</a>
+  <div class="row mt-3">
+    <div class="mr-2">
+      <span>
+        <a class="text-primary-600" href="javascript:void(0)">{{ title }}</a>
+      </span>
+    </div>
+    <div class="mr-2">
+      <span> > </span>
     </div>
     <div>
-      <strong style="padding-left: 10px; padding-right: 10px; font-size: 16px">
+      <span>
+        <a class="text-primary-600" href="javascript:void(0)"
+          >Administrar Usuario</a
         >
-      </strong>
-    </div>
-    <div>
-      <a class="text-primary-600" href="javascript:void(0)"
-        >Administrar Usuario</a
-      >
+      </span>
     </div>
   </div>
-  <div>
-    <h2 class="title-h2">Buscar Usuario</h2>
+  <div class="row">
+    <h2 class="text-sub-title">Buscar Usuario</h2>
   </div>
 </div>
 <div class="container">
-  <div class="search-div">
-    <div class="search-div">
-      <button class="circule-button" mat-raised-button (click)="onCreater()">
+  <div class="row">
+    <div class="mr-2">
+      <button class="btn-raised" mat-raised-button (click)="onCreater()">
         <mat-icon svgIcon="plus"></mat-icon>
       </button>
-      <button
-        style="margin-left: 10px"
-        class="circule-button"
-        matTooltip="Borrar"
-        mat-raised-button
-      >
+    </div>
+    <div class="mr-2">
+      <button class="btn-raised" mat-raised-button>
         <mat-icon svgIcon="eraser"></mat-icon>
       </button>
-
-      <mat-form-field class="search-form-field w-60">
-        <input
-          matInput
-          [(ngModel)]="searchKey"
-          placeholder="¿Buscar Usuario por palabra clave?"
-          autocomplete="off"
-        />
-        <button
-          mat-button
-          matSuffix
-          mat-icon-button
-          aria-label="Clear"
-          *ngIf="searchKey"
-        >
-          <mat-icon svgIcon="cancel"></mat-icon>
-        </button>
+    </div>
+    <div class="w-60">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Busqueda Avanzada</mat-label>
+        <input type="text" matInput placeholder="Busqueda Avanzada" />
+        <mat-icon matSuffix svgIcon="search"></mat-icon>
       </mat-form-field>
     </div>
   </div>

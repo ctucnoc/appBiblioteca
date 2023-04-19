@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>
+  {{ formAuthor.controls["id"].value ? "Actualizar Autor" : "Registrar Autor" }}
+</h2>
+<mat-divider></mat-divider>
+<mat-dialog-content class="mat-typography">
+  <div [formGroup]="formAuthor" class="container">
+    <div class="row mt-2">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>NOMBRE</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="NOMBRE"
+          formControlName="name"
+        />
+        <mat-error *ngIf="formAuthor.get('name')?.hasError('required')">
+          Por favor, ingrese un Nombre
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>APELLIDOS</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="APELLIDOS"
+          formControlName="lastName"
+        />
+        <mat-error *ngIf="formAuthor.get('lastName')?.hasError('required')">
+          Por favor, ingrese un correo
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close type="button" (click)="onClose()">
+    Cerrar
+  </button>
+  <button
+    mat-button
+    mat-dialog-close
+    type="button"
+    [disabled]="onDisabled()"
+    (click)="onSubmit()"
+  >
+    Enviar
+  </button>
+</mat-dialog-actions>

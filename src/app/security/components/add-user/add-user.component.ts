@@ -49,4 +49,8 @@ export class AddUserComponent {
       state: row.state,
     });
   }
+
+  public onDisabled(): boolean {
+    return this.formUser.invalid;
+  }
 }

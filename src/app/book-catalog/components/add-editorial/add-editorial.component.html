@@ -1,7 +1,15 @@
-<div class="container">
-  <form [formGroup]="frmEditorial" (ngSubmit)="onSubmit()">
+<h2 mat-dialog-title>
+  {{
+    frmEditorial.controls["id"].value
+      ? "Actualizar Editorial"
+      : "Registrar Editorial"
+  }}
+</h2>
+<mat-divider></mat-divider>
+<mat-dialog-content class="mat-typography">
+  <div class="container" [formGroup]="frmEditorial">
     <div class="row">
-      <mat-form-field class="w-100">
+      <mat-form-field class="w-100" appearance="outline">
         <mat-label>Identificador</mat-label>
         <input
           type="text"
@@ -12,7 +20,7 @@
       </mat-form-field>
     </div>
     <div class="row">
-      <mat-form-field class="w-100">
+      <mat-form-field class="w-100" appearance="outline">
         <mat-label>Descripción</mat-label>
         <input
           type="text"
@@ -23,9 +31,19 @@
         <mat-error> Por favor, ingrese una descripción </mat-error>
       </mat-form-field>
     </div>
-    <div class="row">
-      <button type="button" (click)="onClose()">Cerrar</button>
-      <button type="submit" [disabled]="frmEditorial.invalid">Enviar</button>
-    </div>
-  </form>
-</div>
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+  <button type="button" mat-button mat-dialog-close (click)="onClose()">
+    Cerrar
+  </button>
+  <button
+    type="submit"
+    mat-button
+    [disabled]="onDisabled()"
+    (click)="onSubmit()"
+  >
+    Enviar
+  </button>
+</mat-dialog-actions>
