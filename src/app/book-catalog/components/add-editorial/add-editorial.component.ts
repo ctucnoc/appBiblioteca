@@ -1,7 +1,7 @@
 import { Component, Inject, ChangeDetectorRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Editorial } from '../list-editorial/list-editorial.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EditorialDTO } from 'src/app/shared/model/response/EditorialDTO';
 
 @Component({
   selector: 'app-add-editorial',
@@ -12,7 +12,7 @@ export class AddEditorialComponent {
   public frmEditorial!: FormGroup;
   constructor(
     private _dialogRef: MatDialogRef<AddEditorialComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Editorial,
+    @Inject(MAT_DIALOG_DATA) public data: EditorialDTO,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef
   ) {}
@@ -20,7 +20,7 @@ export class AddEditorialComponent {
   ngOnInit(): void {
     this.frmEditorial = this.formBuilder.group({
       id: [''],
-      description: ['', [Validators.required]],
+      name: ['', [Validators.required]],
     });
   }
 
@@ -43,10 +43,10 @@ export class AddEditorialComponent {
     this._dialogRef.close(this.frmEditorial.value);
   }
 
-  public onEdit(row: Editorial): void {
+  public onEdit(row: EditorialDTO): void {
     this.frmEditorial.setValue({
       id: row.id,
-      description: row.description,
+      name: row.name,
     });
   }
 

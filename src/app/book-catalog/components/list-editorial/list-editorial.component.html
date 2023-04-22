@@ -27,14 +27,20 @@
       </button>
     </div>
     <div class="mr-2">
-      <button class="btn-raised" mat-raised-button>
+      <button class="btn-raised" mat-raised-button (click)="onEraser()">
         <mat-icon svgIcon="eraser"></mat-icon>
       </button>
     </div>
     <div class="w-60">
       <mat-form-field class="full-width" appearance="outline">
         <mat-label>Busqueda Avanzada</mat-label>
-        <input type="text" matInput placeholder="Busqueda Avanzada" />
+        <input
+          type="text"
+          matInput
+          [(ngModel)]="search"
+          placeholder="Busqueda Avanzada"
+          (keydown.enter)="onSearch($event)"
+        />
         <mat-icon matSuffix svgIcon="search"></mat-icon>
       </mat-form-field>
     </div>
@@ -43,7 +49,7 @@
 <div class="container">
   <br />
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="lstDataSource">
+    <table mat-table [dataSource]="lstDataSource" matSort>
       <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
 
@@ -63,7 +69,7 @@
           DESCRIPCIÓN
         </th>
         <td mat-cell fxFlex="70%" *matCellDef="let element">
-          {{ element.description }}
+          {{ element.name }}
         </td>
       </ng-container>
 
