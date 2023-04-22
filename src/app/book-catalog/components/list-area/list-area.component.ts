@@ -1,4 +1,4 @@
-import { merge, switchMap } from 'rxjs';
+import { Subscription, merge, switchMap } from 'rxjs';
 import { AreaDTO } from './../../../shared/model/response/AreaDTO';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, ViewChild } from '@angular/core';
@@ -19,6 +19,8 @@ import { MatPaginator } from '@angular/material/paginator';
 export class ListAreaComponent {
   private _dialog = inject(MatDialog);
   private _areaService = inject(AreaService);
+
+  protected subscriptios: Array<Subscription> = new Array();
 
   public area!: AreaDTO;
   public lstArea: AreaDTO[] = [];
@@ -57,6 +59,12 @@ export class ListAreaComponent {
       });
   }
 
+  ngOnDestroy(): void {
+    this.subscriptios.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+  }
+
   public onCreater(row?: AreaDTO): void {
     const _dialogConfig = new MatDialogConfig();
     _dialogConfig.disableClose = true;
@@ -79,13 +87,15 @@ export class ListAreaComponent {
     page: number,
     size: number
   ): void {
-    this._areaService
-      .findByDescription(description, page, size)
-      .subscribe((data: any) => {
-        this.lstArea = data.content;
-        this.lstDataSource = new MatTableDataSource(this.lstArea);
-        this.totalElements = data.totalElements;
-      });
+    this.subscriptios.push(
+      this._areaService
+        .findByDescription(description, page, size)
+        .subscribe((data: any) => {
+          this.lstArea = data.content;
+          this.lstDataSource = new MatTableDataSource(this.lstArea);
+          this.totalElements = data.totalElements;
+        })
+    );
   }
 
   public onSearch(event?: any): void {
@@ -113,41 +123,47 @@ export class ListAreaComponent {
   }
 
   public save(area: AreaDTORequest): void {
-    this._areaService.save(area).subscribe(
-      (data: any) => {
-        console.log(data);
-        this.findById(data.id);
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
+    this.subscriptios.push(
+      this._areaService.save(area).subscribe(
+        (data: any) => {
+          console.log(data);
+          this.findById(data.id);
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
     );
   }
 
   public update(id: number, area: AreaDTORequest): void {
-    this._areaService.upate(id, area).subscribe(
-      (data: any) => {
-        console.log(data);
-        this.findById(data.id);
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
+    this.subscriptios.push(
+      this._areaService.upate(id, area).subscribe(
+        (data: any) => {
+          console.log(data);
+          this.findById(data.id);
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
     );
   }
 
   public findById(id: number): void {
-    this._areaService.findById(id).subscribe(
-      (data: any) => {
-        this.area = data;
-        this.onclearLstEditorial();
-        this.lstArea.push(this.area);
-        this.lstDataSource = new MatTableDataSource(this.lstArea);
-        this.totalElements = this.lstArea.length;
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
+    this.subscriptios.push(
+      this._areaService.findById(id).subscribe(
+        (data: any) => {
+          this.area = data;
+          this.onclearLstEditorial();
+          this.lstArea.push(this.area);
+          this.lstDataSource = new MatTableDataSource(this.lstArea);
+          this.totalElements = this.lstArea.length;
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
     );
   }
 }
