@@ -7,6 +7,9 @@ import { EditorialDTO } from 'src/app/shared/model/response/EditorialDTO';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { merge, switchMap } from 'rxjs';
+import { EditorialDTORequest } from 'src/app/shared/model/request/EditorialDTORequest';
+import { HttpErrorResponse } from '@angular/common/http';
+import { BibliotecaConstant } from 'src/app/shared/constants/BibliotecaConstant';
 
 export interface Editorial {
   id?: number;
@@ -30,6 +33,7 @@ export class ListEditorialComponent {
   private _dialog = inject(MatDialog);
   private _editorialService = inject(EditorialService);
 
+  public editorial!: EditorialDTO;
   public search!: string;
   public lstEditorial: EditorialDTO[] = [];
   public title!: string;
@@ -74,7 +78,11 @@ export class ListEditorialComponent {
     const _dialogRef = this._dialog.open(AddEditorialComponent, _dialogConfig);
 
     _dialogRef.afterClosed().subscribe((rpta) => {
-      console.log(rpta);
+      if (rpta.action === BibliotecaConstant.ACTION_UPDATE) {
+        this.update(rpta.id, rpta.editorial);
+      } else if (rpta.action === BibliotecaConstant.ACTION_ADD) {
+        this.save(rpta.editorial);
+      }
     });
   }
 
@@ -110,5 +118,44 @@ export class ListEditorialComponent {
   }
   public onclearLstEditorial(): void {
     this.lstEditorial = [];
+  }
+
+  public save(editorial: EditorialDTORequest): void {
+    this._editorialService.save(editorial).subscribe(
+      (data: any) => {
+        console.log(data);
+        this.findById(data.id);
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
+  }
+
+  public update(id: number, editorial: EditorialDTORequest): void {
+    this._editorialService.upate(id, editorial).subscribe(
+      (data: any) => {
+        console.log(data);
+        this.findById(data.id);
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
+  }
+
+  public findById(id: number): void {
+    this._editorialService.findById(id).subscribe(
+      (data: any) => {
+        this.editorial = data;
+        this.onclearLstEditorial();
+        this.lstEditorial.push(this.editorial);
+        this.lstDataSource = new MatTableDataSource(this.lstEditorial);
+        this.totalElements = this.lstEditorial.length;
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
   }
 }

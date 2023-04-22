@@ -1,7 +1,8 @@
-import { Component, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EditorialDTO } from 'src/app/shared/model/response/EditorialDTO';
+import { BibliotecaConstant } from 'src/app/shared/constants/BibliotecaConstant';
 
 @Component({
   selector: 'app-add-editorial',
@@ -9,13 +10,13 @@ import { EditorialDTO } from 'src/app/shared/model/response/EditorialDTO';
   styleUrls: ['./add-editorial.component.scss'],
 })
 export class AddEditorialComponent {
+  private _dialogRef = inject(MatDialogRef<AddEditorialComponent>);
+  private data = inject(MAT_DIALOG_DATA);
+  private formBuilder = inject(FormBuilder);
+  private cdRef = inject(ChangeDetectorRef);
+
+  private action!: string;
   public frmEditorial!: FormGroup;
-  constructor(
-    private _dialogRef: MatDialogRef<AddEditorialComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: EditorialDTO,
-    private formBuilder: FormBuilder,
-    private cdRef: ChangeDetectorRef
-  ) {}
 
   ngOnInit(): void {
     this.frmEditorial = this.formBuilder.group({
@@ -40,7 +41,14 @@ export class AddEditorialComponent {
   }
 
   public onSubmit(): void {
-    this._dialogRef.close(this.frmEditorial.value);
+    this.action = this.frmEditorial.value.id
+      ? BibliotecaConstant.ACTION_UPDATE
+      : BibliotecaConstant.ACTION_ADD;
+    this._dialogRef.close({
+      id: this.frmEditorial.value.id,
+      editorial: this.frmEditorial.value,
+      action: this.action,
+    });
   }
 
   public onEdit(row: EditorialDTO): void {
