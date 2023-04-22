@@ -6,7 +6,7 @@ import { EditorialService } from 'src/app/shared/service/api/Editorial.service';
 import { EditorialDTO } from 'src/app/shared/model/response/EditorialDTO';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { merge, switchMap } from 'rxjs';
+import { Subscription, merge, switchMap } from 'rxjs';
 import { EditorialDTORequest } from 'src/app/shared/model/request/EditorialDTORequest';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BibliotecaConstant } from 'src/app/shared/constants/BibliotecaConstant';
@@ -33,6 +33,7 @@ export class ListEditorialComponent {
   private _dialog = inject(MatDialog);
   private _editorialService = inject(EditorialService);
 
+  protected subscriptios: Array<Subscription> = new Array();
   public editorial!: EditorialDTO;
   public search!: string;
   public lstEditorial: EditorialDTO[] = [];
@@ -69,6 +70,12 @@ export class ListEditorialComponent {
       });
   }
 
+  ngOnDestroy(): void {
+    this.subscriptios.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+  }
+
   public onCreater(row?: EditorialDTO): void {
     const _dialogConfig = new MatDialogConfig();
     _dialogConfig.disableClose = true;
@@ -87,13 +94,15 @@ export class ListEditorialComponent {
   }
 
   public findByName(name: string, page: number, size: number): void {
-    this._editorialService
-      .findByName(name, page, size)
-      .subscribe((data: any) => {
-        this.lstEditorial = data.content;
-        this.lstDataSource = new MatTableDataSource(this.lstEditorial);
-        this.totalElements = data.totalElements;
-      });
+    this.subscriptios.push(
+      this._editorialService
+        .findByName(name, page, size)
+        .subscribe((data: any) => {
+          this.lstEditorial = data.content;
+          this.lstDataSource = new MatTableDataSource(this.lstEditorial);
+          this.totalElements = data.totalElements;
+        })
+    );
   }
 
   public onSearch(event?: any): void {
@@ -121,41 +130,47 @@ export class ListEditorialComponent {
   }
 
   public save(editorial: EditorialDTORequest): void {
-    this._editorialService.save(editorial).subscribe(
-      (data: any) => {
-        console.log(data);
-        this.findById(data.id);
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
+    this.subscriptios.push(
+      this._editorialService.save(editorial).subscribe(
+        (data: any) => {
+          console.log(data);
+          this.findById(data.id);
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
     );
   }
 
   public update(id: number, editorial: EditorialDTORequest): void {
-    this._editorialService.upate(id, editorial).subscribe(
-      (data: any) => {
-        console.log(data);
-        this.findById(data.id);
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
+    this.subscriptios.push(
+      this._editorialService.upate(id, editorial).subscribe(
+        (data: any) => {
+          console.log(data);
+          this.findById(data.id);
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
     );
   }
 
   public findById(id: number): void {
-    this._editorialService.findById(id).subscribe(
-      (data: any) => {
-        this.editorial = data;
-        this.onclearLstEditorial();
-        this.lstEditorial.push(this.editorial);
-        this.lstDataSource = new MatTableDataSource(this.lstEditorial);
-        this.totalElements = this.lstEditorial.length;
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
+    this.subscriptios.push(
+      this._editorialService.findById(id).subscribe(
+        (data: any) => {
+          this.editorial = data;
+          this.onclearLstEditorial();
+          this.lstEditorial.push(this.editorial);
+          this.lstDataSource = new MatTableDataSource(this.lstEditorial);
+          this.totalElements = this.lstEditorial.length;
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
     );
   }
 }

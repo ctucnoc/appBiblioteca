@@ -30,4 +30,7 @@ export class HeaderComponent {
   public goToEditorial(): void {
     this._router.navigate(['book-catalog/editorial']);
   }
+  public goToArea(): void {
+    this._router.navigate(['book-catalog/area']);
+  }
 }

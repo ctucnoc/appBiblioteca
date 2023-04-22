@@ -13,6 +13,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListAuthorComponent } from './components/list-author/list-author.component';
 import { AddAuthorComponent } from './components/add-author/add-author.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { AreaComponent } from './pages/area/area.component';
+import { ListAreaComponent } from './components/list-area/list-area.component';
+import { AddAreaComponent } from './components/add-area/add-area.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     AddEditorialComponent,
     ListAuthorComponent,
     AddAuthorComponent,
+    AreaComponent,
+    ListAreaComponent,
+    AddAreaComponent,
   ],
   imports: [
     CommonModule,

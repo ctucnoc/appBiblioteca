@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>
+  {{ frmArea.controls["id"].value ? "Actualizar Area" : "Registrar Area" }}
+</h2>
+<mat-divider></mat-divider>
+<mat-dialog-content class="mat-typography">
+  <div class="container" [formGroup]="frmArea">
+    <div class="row">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Nombre"
+          formControlName="description"
+        />
+        <mat-error> Por favor, ingrese un nombre </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+  <button type="button" mat-button mat-dialog-close (click)="onClose()">
+    Cerrar
+  </button>
+  <button
+    type="submit"
+    mat-button
+    [disabled]="onDisabled()"
+    (click)="onSubmit()"
+  >
+    Enviar
+  </button>
+</mat-dialog-actions>

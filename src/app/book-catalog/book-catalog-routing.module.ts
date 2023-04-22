@@ -4,6 +4,8 @@ import { BookCatalogLayoutComponent } from './layout/book-catalog-layout/book-ca
 import { BookComponent } from './pages/book/book.component';
 import { AuthorComponent } from './pages/author/author.component';
 import { EditorialComponent } from './pages/editorial/editorial.component';
+import { AreaComponent } from './pages/area/area.component';
+import { BibliotecaConstant } from '../shared/constants/BibliotecaConstant';
 
 const routes: Routes = [
   {
@@ -20,6 +22,14 @@ const routes: Routes = [
         path: 'editorial',
         component: EditorialComponent,
         title: 'biblioteca - editorial',
+      },
+      {
+        path: 'area',
+        component: AreaComponent,
+        title:
+          BibliotecaConstant.TITLE_APP +
+          ' - ' +
+          BibliotecaConstant.TITLE_PAGE_AREA,
       },
     ],
   },
