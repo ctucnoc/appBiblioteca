@@ -1,9 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddAuthorComponent } from '../add-author/add-author.component';
+import { AuthorService } from 'src/app/shared/service/api/Author.service';
+import { merge, switchMap } from 'rxjs';
 
 export interface Author {
   id?: number;
@@ -25,6 +27,10 @@ const ELEMENT_DATA: Author[] = [
   styleUrls: ['./list-author.component.scss'],
 })
 export class ListAuthorComponent {
+  private _dialog = inject(MatDialog);
+  private _authorService = inject(AuthorService);
+
+  public lstAuthor: Author[] = [];
   public lstMatDataSource!: MatTableDataSource<any>;
   public lstColumsTable: string[] = ['ID', 'NOMBRE', 'APELLIDOS', 'SELECCIONE'];
   public searchKey!: string;
@@ -33,18 +39,43 @@ export class ListAuthorComponent {
   public totalElements!: number;
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(MatPaginator) matPaginator!: MatPaginator;
-  constructor(private _dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.title = 'Catalogo de Libros';
-    this.findByAuthor();
   }
 
-  public findByAuthor(): void {
-    this.lstMatDataSource = new MatTableDataSource(ELEMENT_DATA);
-    this.lstMatDataSource.sort = this.matSort;
-    this.lstMatDataSource.paginator = this.matPaginator;
-    this.totalElements = ELEMENT_DATA.length;
+  ngAfterViewInit(): void {
+    this.findByAuthorName('', 0, 5);
+    this.matSort.sortChange.subscribe(() => (this.matPaginator.pageIndex = 0));
+    merge(this.matSort.sortChange, this.matPaginator.page)
+      .pipe(
+        switchMap(() => {
+          return this._authorService.findByName(
+            this.searchKey ? this.searchKey : '',
+            this.matPaginator.pageIndex,
+            this.matPaginator.pageSize
+          );
+        })
+      )
+      .subscribe((data: any) => {
+        this.lstAuthor = data.content;
+        this.lstMatDataSource = new MatTableDataSource(this.lstAuthor);
+        this.totalElements = data.totalElements;
+      });
+  }
+
+  public findByAuthorName(name: string, page: number, size: number): void {
+    this._authorService.findByName(name, page, size).subscribe((data: any) => {
+      this.lstAuthor = data.content;
+      this.lstMatDataSource = new MatTableDataSource(this.lstAuthor);
+      this.totalElements = data.totalElements;
+    });
+  }
+
+  public onSearch(event: any): void {
+    if (event.key === 'Enter' || event.keyCode === 'Enter') {
+      this.findByAuthorName(this.searchKey, 0, 5);
+    }
   }
 
   public onCreater(row?: Author): void {
@@ -57,5 +88,18 @@ export class ListAuthorComponent {
     dialogoRef.afterClosed().subscribe((rpta) => {
       console.log(rpta);
     });
+  }
+
+  public onEraser(): void {
+    this.onCloseKeyWord();
+    this.onCloseLstAuthor();
+    this.findByAuthorName('', 0, 5);
+  }
+
+  public onCloseKeyWord(): void {
+    this.searchKey = '';
+  }
+  public onCloseLstAuthor(): void {
+    this.lstAuthor = [];
   }
 }
