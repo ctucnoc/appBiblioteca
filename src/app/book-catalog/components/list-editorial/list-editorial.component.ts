@@ -40,7 +40,7 @@ export class ListEditorialComponent {
   @ViewChild(MatPaginator) matPaginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.title = 'Catalogo de Luibros';
+    this.title = 'Catalogo de Libros';
     //this.lstDataSource = new MatTableDataSource(ELEMENT_DATA);
     //this.totalElements = ELEMENT_DATA.length;
   }
