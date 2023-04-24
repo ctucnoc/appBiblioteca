@@ -16,6 +16,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AreaComponent } from './pages/area/area.component';
 import { ListAreaComponent } from './components/list-area/list-area.component';
 import { AddAreaComponent } from './components/add-area/add-area.component';
+import { SubAreaComponent } from './pages/sub-area/sub-area.component';
+import { AddSubAreaComponent } from './components/add-sub-area/add-sub-area.component';
+import { ListSubAreaComponent } from './components/list-sub-area/list-sub-area.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { AddAreaComponent } from './components/add-area/add-area.component';
     AreaComponent,
     ListAreaComponent,
     AddAreaComponent,
+    SubAreaComponent,
+    AddSubAreaComponent,
+    ListSubAreaComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Registrar Sub Area</h2>
+<mat-divider></mat-divider>
+<mat-dialog-content class="mat-typography">
+  <div class="container" [formGroup]="frmSubArea">
+    <div class="row">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Descripción</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Nombre"
+          formControlName="description"
+        />
+        <mat-error *ngIf="frmSubArea.get('description')?.hasError('required')">
+          Por favor, ingrese un descripción
+        </mat-error>
+        <mat-error *ngIf="frmSubArea.get('description')?.hasError('minlength')">
+          Por favor, el tamaño minimo es de 5 caracteres
+        </mat-error>
+        <mat-error *ngIf="frmSubArea.get('description')?.hasError('maxlength')">
+          Por favor, el tamaño maximo es de 30 caracteres
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+  <button type="button" mat-button mat-dialog-close (click)="onClose()">
+    Cerrar
+  </button>
+  <button
+    type="submit"
+    mat-button
+    [disabled]="onDisabled()"
+    (click)="onSubmit()"
+  >
+    Enviar
+  </button>
+</mat-dialog-actions>

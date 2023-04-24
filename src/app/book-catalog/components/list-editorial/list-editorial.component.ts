@@ -11,19 +11,6 @@ import { EditorialDTORequest } from 'src/app/shared/model/request/EditorialDTORe
 import { HttpErrorResponse } from '@angular/common/http';
 import { BibliotecaConstant } from 'src/app/shared/constants/BibliotecaConstant';
 
-export interface Editorial {
-  id?: number;
-  description?: string;
-}
-
-const ELEMENT_DATA: Editorial[] = [
-  { id: 1, description: 'editorial Perú' },
-  { id: 2, description: 'editorial ayacucho' },
-  { id: 3, description: 'editorial unsch' },
-  { id: 4, description: 'editorial la nueva esperanza' },
-  { id: 5, description: 'editorial academia fullsatck' },
-];
-
 @Component({
   selector: 'app-list-editorial',
   templateUrl: './list-editorial.component.html',
@@ -38,6 +25,8 @@ export class ListEditorialComponent {
   public search!: string;
   public lstEditorial: EditorialDTO[] = [];
   public title!: string;
+  public subtitle!: string;
+  public namePage!: string;
   public lstDataSource!: MatTableDataSource<any>;
   public lstColumsTable: string[] = ['ID', 'DESCRIPTION', 'SELECCIONAR'];
   public totalElements!: number;
@@ -45,13 +34,23 @@ export class ListEditorialComponent {
   @ViewChild(MatPaginator) matPaginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.title = 'Catalogo de Libros';
-    //this.lstDataSource = new MatTableDataSource(ELEMENT_DATA);
-    //this.totalElements = ELEMENT_DATA.length;
+    this.title = BibliotecaConstant.TITLE_PAGE_BOOK_CATALOG;
+    this.namePage = BibliotecaConstant.VC_ADMIN.concat(
+      ' ',
+      BibliotecaConstant.TITLE_PAGE_AREA
+    );
+    this.subtitle = BibliotecaConstant.VC_SEARCH.concat(
+      ' ',
+      BibliotecaConstant.TITLE_PAGE_AREA
+    );
   }
 
   ngAfterViewInit(): void {
-    this.findByName('', 0, 5);
+    this.findByName(
+      BibliotecaConstant.VC_EMTY,
+      BibliotecaConstant.PAGE_NRO_INITIAL,
+      BibliotecaConstant.PAGE_SIZE_INITIAL
+    );
     this.matSort.sortChange.subscribe(() => (this.matPaginator.pageIndex = 0));
     merge(this.matSort.sortChange, this.matPaginator.page)
       .pipe(
@@ -107,7 +106,11 @@ export class ListEditorialComponent {
 
   public onSearch(event?: any): void {
     if (event.key === 'Enter' || event.keyCode === 'Enter') {
-      this.findByName(this.search, 0, 5);
+      this.findByName(
+        this.search,
+        BibliotecaConstant.PAGE_NRO_INITIAL,
+        BibliotecaConstant.PAGE_SIZE_INITIAL
+      );
     }
   }
 
@@ -115,7 +118,11 @@ export class ListEditorialComponent {
     this.onClearTotalElement();
     this.onClearSearh();
     this.onclearLstEditorial();
-    this.findByName('', 0, 5);
+    this.findByName(
+      BibliotecaConstant.VC_EMTY,
+      BibliotecaConstant.PAGE_NRO_INITIAL,
+      BibliotecaConstant.PAGE_SIZE_INITIAL
+    );
   }
 
   public onClearTotalElement(): void {

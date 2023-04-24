@@ -5,9 +5,14 @@
 ></app-navigability>
 
 <div class="container">
-  <div class="row">
+  <div [formGroup]="frmArea" class="row">
     <div class="mr-2">
-      <button class="btn-raised" mat-raised-button (click)="onCreater()">
+      <button
+        class="btn-raised"
+        mat-raised-button
+        (click)="onCreater()"
+        [disabled]="onDisabledPlus()"
+      >
         <mat-icon svgIcon="plus"></mat-icon>
       </button>
     </div>
@@ -22,11 +27,23 @@
         <input
           type="text"
           matInput
-          [(ngModel)]="search"
           placeholder="Busqueda Avanzada"
           (keydown.enter)="onSearch($event)"
+          formControlName="description"
+          autocomplete="off"
         />
-        <mat-icon matSuffix svgIcon="search"></mat-icon>
+        <button
+          type="reset"
+          mat-icon-button
+          matSuffix
+          *ngIf="isFlagDescription()"
+          (click)="clear()"
+        >
+          <mat-icon svgIcon="cancel"></mat-icon>
+        </button>
+        <button matSuffix mat-icon-button>
+          <mat-icon svgIcon="search"></mat-icon>
+        </button>
       </mat-form-field>
     </div>
   </div>
@@ -50,11 +67,21 @@
 
       <!-- Name Column -->
       <ng-container matColumnDef="DESCRIPTION">
-        <th mat-header-cell fxFlex="70%" fxFlexAlign="center" *matHeaderCellDef>
+        <th mat-header-cell fxFlex="40%" fxFlexAlign="center" *matHeaderCellDef>
           DESCRIPCIÓN
         </th>
-        <td mat-cell fxFlex="70%" *matCellDef="let element">
+        <td mat-cell fxFlex="40%" *matCellDef="let element">
           {{ element.description }}
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="AREA">
+        <th mat-header-cell fxFlex="30%" fxFlexAlign="center" *matHeaderCellDef>
+          AREA
+        </th>
+        <td mat-cell fxFlex="30%" *matCellDef="let element">
+          {{ element.area.description }}
         </td>
       </ng-container>
 
@@ -70,9 +97,6 @@
           SELECCIONAR
         </th>
         <td mat-cell fxFlex="10%" *matCellDef="let row">
-          <button mat-icon-button matTooltip="Editar" (click)="onCreater(row)">
-            <mat-icon svgIcon="edit"></mat-icon>
-          </button>
           <button mat-icon-button matTooltip="Eliminar">
             <mat-icon svgIcon="delete"></mat-icon>
           </button>

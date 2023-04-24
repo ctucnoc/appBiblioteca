@@ -6,30 +6,63 @@ import { AuthorComponent } from './pages/author/author.component';
 import { EditorialComponent } from './pages/editorial/editorial.component';
 import { AreaComponent } from './pages/area/area.component';
 import { BibliotecaConstant } from '../shared/constants/BibliotecaConstant';
+import { setting } from 'src/environments/setting';
+import { SubAreaComponent } from './pages/sub-area/sub-area.component';
 
 const routes: Routes = [
   {
     path: '',
     component: BookCatalogLayoutComponent,
     children: [
-      { path: 'book', component: BookComponent },
+      {
+        path: 'book',
+        component: BookComponent,
+        title:
+          setting.name_app +
+          '_' +
+          setting.version_app +
+          ' - ' +
+          BibliotecaConstant.TITLE_PAGE_BOOK,
+      },
       {
         path: 'author',
         component: AuthorComponent,
-        title: 'biblioteca - autor',
+        title:
+          setting.name_app +
+          '_' +
+          setting.version_app +
+          ' - ' +
+          BibliotecaConstant.TITLE_PAGE_AUTHOR,
       },
       {
         path: 'editorial',
         component: EditorialComponent,
-        title: 'biblioteca - editorial',
+        title:
+          setting.name_app +
+          '_' +
+          setting.version_app +
+          ' - ' +
+          BibliotecaConstant.TITLE_PAGE_EDITORIAL,
       },
       {
         path: 'area',
         component: AreaComponent,
         title:
-          BibliotecaConstant.TITLE_APP +
+          setting.name_app +
+          '_' +
+          setting.version_app +
           ' - ' +
           BibliotecaConstant.TITLE_PAGE_AREA,
+      },
+      {
+        path: 'sub-area',
+        component: SubAreaComponent,
+        title:
+          setting.name_app +
+          '_' +
+          setting.version_app +
+          ' - ' +
+          BibliotecaConstant.TITLE_PAGE_SUB_AREA,
       },
     ],
   },

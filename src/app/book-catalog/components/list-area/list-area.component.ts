@@ -25,6 +25,8 @@ export class ListAreaComponent {
   public area!: AreaDTO;
   public lstArea: AreaDTO[] = [];
   public title!: string;
+  public subtitle!: string;
+  public namePage!: string;
   public search!: string;
   public totalElements!: number;
   public lstDataSource!: MatTableDataSource<any>;
@@ -34,12 +36,20 @@ export class ListAreaComponent {
 
   ngOnInit(): void {
     this.title = BibliotecaConstant.TITLE_PAGE_BOOK_CATALOG;
+    this.namePage = BibliotecaConstant.VC_ADMIN.concat(
+      ' ',
+      BibliotecaConstant.TITLE_PAGE_AREA
+    );
+    this.subtitle = BibliotecaConstant.VC_SEARCH.concat(
+      ' ',
+      BibliotecaConstant.TITLE_PAGE_AREA
+    );
   }
   ngAfterViewInit(): void {
     this.findByDescription(
-      BibliotecaConstant.TEXT_EMTY,
-      BibliotecaConstant.PAGE_INITIALS,
-      BibliotecaConstant.PAGE_SIZE_INITIALS
+      BibliotecaConstant.VC_EMTY,
+      BibliotecaConstant.PAGE_NRO_INITIAL,
+      BibliotecaConstant.PAGE_SIZE_INITIAL
     );
     this.matSort.sortChange.subscribe(() => (this.matPaginator.pageIndex = 0));
     merge(this.matSort.sortChange, this.matPaginator.page)
@@ -100,7 +110,11 @@ export class ListAreaComponent {
 
   public onSearch(event?: any): void {
     if (event.key === 'Enter' || event.keyCode === 'Enter') {
-      this.findByDescription(this.search, 0, 5);
+      this.findByDescription(
+        this.search,
+        BibliotecaConstant.PAGE_NRO_INITIAL,
+        BibliotecaConstant.PAGE_SIZE_INITIAL
+      );
     }
   }
 
@@ -108,7 +122,11 @@ export class ListAreaComponent {
     this.onClearTotalElement();
     this.onClearSearh();
     this.onclearLstEditorial();
-    this.findByDescription('', 0, 5);
+    this.findByDescription(
+      BibliotecaConstant.VC_EMTY,
+      BibliotecaConstant.PAGE_NRO_INITIAL,
+      BibliotecaConstant.PAGE_SIZE_INITIAL
+    );
   }
 
   public onClearTotalElement(): void {

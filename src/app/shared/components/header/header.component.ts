@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { setting } from 'src/environments/setting';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,11 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   private _router: Router = inject(Router);
 
-  constructor() {}
+  public title!: string;
+
+  ngOnInit(): void {
+    this.title = setting.name_app + '_' + setting.version_app;
+  }
 
   public goToBook(): void {
     this._router.navigate(['book-catalog/book']);
@@ -32,5 +37,8 @@ export class HeaderComponent {
   }
   public goToArea(): void {
     this._router.navigate(['book-catalog/area']);
+  }
+  public goToSubArea(): void {
+    this._router.navigate(['book-catalog/sub-area']);
   }
 }
