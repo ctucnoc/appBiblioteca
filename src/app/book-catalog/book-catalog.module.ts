@@ -19,6 +19,7 @@ import { AddAreaComponent } from './components/add-area/add-area.component';
 import { SubAreaComponent } from './pages/sub-area/sub-area.component';
 import { AddSubAreaComponent } from './components/add-sub-area/add-sub-area.component';
 import { ListSubAreaComponent } from './components/list-sub-area/list-sub-area.component';
+import { UpperDirective } from '../shared/directive/input/upper.directive';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { ListSubAreaComponent } from './components/list-sub-area/list-sub-area.c
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    UpperDirective,
   ],
 })
 export class BookCatalogModule {}
