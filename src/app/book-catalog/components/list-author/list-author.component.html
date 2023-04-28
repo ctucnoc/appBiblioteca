@@ -28,14 +28,20 @@
       </button>
     </div>
     <div class="mr-2">
-      <button class="btn-raised" mat-raised-button>
+      <button class="btn-raised" mat-raised-button (click)="onEraser()">
         <mat-icon svgIcon="eraser"></mat-icon>
       </button>
     </div>
     <div class="w-60">
       <mat-form-field class="full-width" appearance="outline">
         <mat-label>Busqueda Avanzada</mat-label>
-        <input type="text" matInput placeholder="Busqueda Avanzada" />
+        <input
+          type="text"
+          matInput
+          [(ngModel)]="searchKey"
+          placeholder="Busqueda Avanzada"
+          (keydown.enter)="onSearch($event)"
+        />
         <mat-icon matSuffix svgIcon="search"></mat-icon>
       </mat-form-field>
     </div>
