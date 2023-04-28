@@ -1,12 +1,29 @@
+import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectorRef, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MaterialModule } from 'src/app/material.module';
 import { AuthorDTO } from 'src/app/shared/model/response/AuthorDTO';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
   selector: 'app-add-author',
   templateUrl: './add-author.component.html',
   styleUrls: ['./add-author.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    SharedModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
 })
 export class AddAuthorComponent {
   private _dialogRef = inject(MatDialogRef<AddAuthorComponent>);

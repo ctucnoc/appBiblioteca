@@ -1,13 +1,30 @@
 import { Component, ChangeDetectorRef, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { EditorialDTO } from 'src/app/shared/model/response/EditorialDTO';
 import { BibliotecaConstant } from 'src/app/shared/constants/BibliotecaConstant';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { MaterialModule } from 'src/app/material.module';
 
 @Component({
   selector: 'app-add-editorial',
   templateUrl: './add-editorial.component.html',
   styleUrls: ['./add-editorial.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    SharedModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
 })
 export class AddEditorialComponent {
   private _dialogRef = inject(MatDialogRef<AddEditorialComponent>);

@@ -1,13 +1,30 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MaterialModule } from 'src/app/material.module';
 import { BibliotecaConstant } from 'src/app/shared/constants/BibliotecaConstant';
 import { AreaDTO } from 'src/app/shared/model/response/AreaDTO';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
   selector: 'app-add-area',
   templateUrl: './add-area.component.html',
   styleUrls: ['./add-area.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    SharedModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
 })
 export class AddAreaComponent {
   private _dialogRef = inject(MatDialogRef<AddAreaComponent>);

@@ -1,39 +1,31 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { CorePublicLayoutComponent } from './layout/core-public-layout/core-public-layout.component';
 import { CorePrivateLayoutComponent } from './layout/core-private-layout/core-private-layout.component';
 
-const routes: Routes = [
+export const coreRoutes: Routes = [
   {
     path: '',
     component: CorePublicLayoutComponent,
-    loadChildren: () =>
-      import('./../auth/auth.module').then((m) => m.AuthModule),
+    loadChildren: () => import('../auth/auth.routes').then((m) => m.authRoutes),
   },
   {
     path: 'book-catalog',
     component: CorePrivateLayoutComponent,
     loadChildren: () =>
-      import('./../book-catalog/book-catalog.module').then(
-        (m) => m.BookCatalogModule
+      import('../book-catalog/book-catalog.routes').then(
+        (m) => m.bookCatalogRoutes
       ),
   },
   {
     path: 'report',
     component: CorePrivateLayoutComponent,
     loadChildren: () =>
-      import('./../report/report.module').then((m) => m.ReportModule),
+      import('../report/report.routes').then((m) => m.reportRoutes),
   },
   {
     path: 'security',
     component: CorePrivateLayoutComponent,
     loadChildren: () =>
-      import('./../security/security.module').then((m) => m.SecurityModule),
+      import('../security/security.reotes').then((m) => m.securityRoutes),
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class CoreRoutingModule {}

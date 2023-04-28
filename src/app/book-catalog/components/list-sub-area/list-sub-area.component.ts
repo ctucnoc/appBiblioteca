@@ -5,12 +5,29 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BibliotecaConstant } from 'src/app/shared/constants/BibliotecaConstant';
 import { AddSubAreaComponent } from '../add-sub-area/add-sub-area.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { MaterialModule } from 'src/app/material.module';
 
 @Component({
   selector: 'app-list-sub-area',
   templateUrl: './list-sub-area.component.html',
   styleUrls: ['./list-sub-area.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    SharedModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
 })
 export class ListSubAreaComponent {
   private _dialog = inject(MatDialog);

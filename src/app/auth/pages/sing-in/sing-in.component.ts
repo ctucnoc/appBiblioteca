@@ -1,12 +1,22 @@
-import { Component, ElementRef, SimpleChange, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { MaterialModule } from 'src/app/material.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
   selector: 'app-sing-in',
   templateUrl: './sing-in.component.html',
   styleUrls: ['./sing-in.component.scss'],
+  standalone: true,
+  imports: [CommonModule, SharedModule, MaterialModule, ReactiveFormsModule],
 })
 export class SingInComponent {
   public hide: boolean = true;

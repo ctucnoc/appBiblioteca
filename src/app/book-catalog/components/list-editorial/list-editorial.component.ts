@@ -10,11 +10,23 @@ import { Subscription, merge, switchMap } from 'rxjs';
 import { EditorialDTORequest } from 'src/app/shared/model/request/EditorialDTORequest';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BibliotecaConstant } from 'src/app/shared/constants/BibliotecaConstant';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { MaterialModule } from 'src/app/material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-list-editorial',
   templateUrl: './list-editorial.component.html',
   styleUrls: ['./list-editorial.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    SharedModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
 })
 export class ListEditorialComponent {
   private _dialog = inject(MatDialog);
