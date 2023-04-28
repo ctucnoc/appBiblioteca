@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from 'src/app/material.module';
+import { FirtUpperPipe } from 'src/app/shared/pipe/firt-upper.pipe';
 
 export interface User {
   identifier?: string;
@@ -66,6 +67,7 @@ const ELEMENT_DATA: User[] = [
     FormsModule,
     SharedModule,
     MaterialModule,
+    FirtUpperPipe,
   ],
 })
 export class ListUserComponent {

@@ -60,7 +60,9 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header
           >NOMBRE COMPLET</mat-header-cell
         >
-        <mat-cell *matCellDef="let row">{{ row.fullName }}</mat-cell>
+        <mat-cell *matCellDef="let row">{{
+          row.fullName | firtUpper
+        }}</mat-cell>
       </ng-container>
 
       <!-- Weight Column -->
