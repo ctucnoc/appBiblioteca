@@ -9,11 +9,23 @@ import { merge, switchMap } from 'rxjs';
 import { AuthorDTO } from 'src/app/shared/model/response/AuthorDTO';
 import { AuthorDTORequest } from 'src/app/shared/model/request/AuthorDTORequest';
 import { HttpErrorResponse } from '@angular/common/http';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from 'src/app/material.module';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list-author',
   templateUrl: './list-author.component.html',
   styleUrls: ['./list-author.component.scss'],
+  standalone: true,
+  imports: [
+    SharedModule,
+    ReactiveFormsModule,
+    MaterialModule,
+    FormsModule,
+    CommonModule,
+  ],
 })
 export class ListAuthorComponent {
   private _dialog = inject(MatDialog);

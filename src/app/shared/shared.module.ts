@@ -8,6 +8,6 @@ import { NavigabilityComponent } from './components/navigability/navigability.co
 @NgModule({
   declarations: [HeaderComponent, NavigabilityComponent],
   imports: [CommonModule, IconModule, MaterialModule],
-  exports: [HeaderComponent, NavigabilityComponent],
+  exports: [HeaderComponent, NavigabilityComponent, IconModule],
 })
 export class SharedModule {}

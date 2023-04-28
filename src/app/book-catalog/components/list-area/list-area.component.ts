@@ -10,11 +10,23 @@ import { AreaService } from 'src/app/shared/service/api/Area.service';
 import { AddAreaComponent } from '../add-area/add-area.component';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from 'src/app/material.module';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list-area',
   templateUrl: './list-area.component.html',
   styleUrls: ['./list-area.component.scss'],
+  standalone: true,
+  imports: [
+    SharedModule,
+    ReactiveFormsModule,
+    MaterialModule,
+    FormsModule,
+    CommonModule,
+  ],
 })
 export class ListAreaComponent {
   private _dialog = inject(MatDialog);

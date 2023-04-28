@@ -1,12 +1,29 @@
+import { CommonModule } from '@angular/common';
 import { User } from './../list-user/list-user.component';
 import { Component, Inject, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { MaterialModule } from 'src/app/material.module';
 
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.scss'],
+  standalone: true,
+  imports: [
+    SharedModule,
+    CommonModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
 })
 export class AddUserComponent {
   public formUser!: FormGroup;

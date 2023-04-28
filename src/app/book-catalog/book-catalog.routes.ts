@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { BookCatalogLayoutComponent } from './layout/book-catalog-layout/book-catalog-layout.component';
 import { BookComponent } from './pages/book/book.component';
 import { AuthorComponent } from './pages/author/author.component';
@@ -9,7 +8,7 @@ import { BibliotecaConstant } from '../shared/constants/BibliotecaConstant';
 import { setting } from 'src/environments/setting';
 import { SubAreaComponent } from './pages/sub-area/sub-area.component';
 
-const routes: Routes = [
+export const bookCatalogRoutes: Routes = [
   {
     path: '',
     component: BookCatalogLayoutComponent,
@@ -67,9 +66,3 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class BookCatalogRoutingModule {}

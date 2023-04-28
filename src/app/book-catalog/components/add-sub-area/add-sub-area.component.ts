@@ -1,11 +1,28 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
+import { MaterialModule } from 'src/app/material.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
   selector: 'app-add-sub-area',
   templateUrl: './add-sub-area.component.html',
   styleUrls: ['./add-sub-area.component.scss'],
+  standalone: true,
+  imports: [
+    RouterModule,
+    SharedModule,
+    ReactiveFormsModule,
+    MaterialModule,
+    CommonModule,
+  ],
 })
 export class AddSubAreaComponent {
   private _dialogRef = inject(MatDialogRef<AddSubAreaComponent>);

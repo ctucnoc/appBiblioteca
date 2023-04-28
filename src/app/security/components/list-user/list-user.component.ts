@@ -1,9 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddUserComponent } from '../add-user/add-user.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { MaterialModule } from 'src/app/material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export interface User {
   identifier?: string;
@@ -55,6 +59,14 @@ const ELEMENT_DATA: User[] = [
   selector: 'app-list-user',
   templateUrl: './list-user.component.html',
   styleUrls: ['./list-user.component.scss'],
+  standalone: true,
+  imports: [
+    SharedModule,
+    CommonModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
 })
 export class ListUserComponent {
   public lstMatDataSource!: MatTableDataSource<any>;
