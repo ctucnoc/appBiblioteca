@@ -1,4 +1,4 @@
-import { Subscription, merge, switchMap } from 'rxjs';
+import { Subscription, map, merge, startWith, switchMap } from 'rxjs';
 import { AreaDTO } from './../../../shared/model/response/AreaDTO';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, ViewChild } from '@angular/core';
@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from 'src/app/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PageDTO } from 'src/app/shared/model/response/PageDTO';
 
 @Component({
   selector: 'app-list-area',
@@ -40,8 +41,7 @@ export class ListAreaComponent {
   public subtitle!: string;
   public namePage!: string;
   public search!: string;
-  public totalElements!: number;
-  public lstDataSource!: MatTableDataSource<any>;
+  public totalElements?: number;
   public lstColumsTable: string[] = ['ID', 'DESCRIPTION', 'SELECCIONAR'];
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(MatPaginator) matPaginator!: MatPaginator;
@@ -58,27 +58,23 @@ export class ListAreaComponent {
     );
   }
   ngAfterViewInit(): void {
-    this.findByDescription(
-      BibliotecaConstant.VC_EMTY,
-      BibliotecaConstant.PAGE_NRO_INITIAL,
-      BibliotecaConstant.PAGE_SIZE_INITIAL
-    );
     this.matSort.sortChange.subscribe(() => (this.matPaginator.pageIndex = 0));
     merge(this.matSort.sortChange, this.matPaginator.page)
       .pipe(
+        startWith({}),
         switchMap(() => {
           return this._areaService.findByDescription(
             this.search ? this.search : '',
             this.matPaginator.pageIndex,
             this.matPaginator.pageSize
           );
+        }),
+        map((data: PageDTO<AreaDTO>) => {
+          this.totalElements = data.totalElements;
+          return data.content;
         })
       )
-      .subscribe((data: any) => {
-        this.lstArea = data.content;
-        this.lstDataSource = new MatTableDataSource(this.lstArea);
-        this.totalElements = data.totalElements;
-      });
+      .subscribe((data: any) => (this.lstArea = data));
   }
 
   ngOnDestroy(): void {
@@ -112,11 +108,15 @@ export class ListAreaComponent {
     this.subscriptios.push(
       this._areaService
         .findByDescription(description, page, size)
-        .subscribe((data: any) => {
-          this.lstArea = data.content;
-          this.lstDataSource = new MatTableDataSource(this.lstArea);
-          this.totalElements = data.totalElements;
-        })
+        .pipe(
+          map((data) => {
+            this.totalElements = data.totalElements;
+            this.matPaginator.pageIndex = data.number;
+            this.matPaginator.pageSize = data.size;
+            return data.content;
+          })
+        )
+        .subscribe((data: any) => (this.lstArea = data))
     );
   }
 
@@ -181,14 +181,12 @@ export class ListAreaComponent {
   }
 
   public findById(id: number): void {
+    this.onclearLstEditorial();
     this.subscriptios.push(
       this._areaService.findById(id).subscribe(
         (data: any) => {
-          this.area = data;
-          this.onclearLstEditorial();
-          this.lstArea.push(this.area);
-          this.lstDataSource = new MatTableDataSource(this.lstArea);
-          this.totalElements = this.lstArea.length;
+          let area: AreaDTO = data;
+          this.lstArea.push(area);
         },
         (error: HttpErrorResponse) => {
           console.log(error);

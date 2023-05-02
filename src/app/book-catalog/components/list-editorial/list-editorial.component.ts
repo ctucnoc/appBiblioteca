@@ -1,12 +1,11 @@
 import { Component, ViewChild, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { AddEditorialComponent } from '../add-editorial/add-editorial.component';
 import { EditorialService } from 'src/app/shared/service/api/Editorial.service';
 import { EditorialDTO } from 'src/app/shared/model/response/EditorialDTO';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { Subscription, merge, switchMap } from 'rxjs';
+import { Subscription, map, merge, startWith, switchMap } from 'rxjs';
 import { EditorialDTORequest } from 'src/app/shared/model/request/EditorialDTORequest';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BibliotecaConstant } from 'src/app/shared/constants/BibliotecaConstant';
@@ -14,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from 'src/app/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PageDTO } from 'src/app/shared/model/response/PageDTO';
 
 @Component({
   selector: 'app-list-editorial',
@@ -39,11 +39,12 @@ export class ListEditorialComponent {
   public title!: string;
   public subtitle!: string;
   public namePage!: string;
-  public lstDataSource!: MatTableDataSource<any>;
   public lstColumsTable: string[] = ['ID', 'DESCRIPTION', 'SELECCIONAR'];
-  public totalElements!: number;
-  @ViewChild(MatSort) matSort!: MatSort;
-  @ViewChild(MatPaginator) matPaginator!: MatPaginator;
+  public totalElements?: number = 0;
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  public isLoadingResults: boolean = true;
+  public pageSize?: number;
 
   ngOnInit(): void {
     this.title = BibliotecaConstant.TITLE_PAGE_BOOK_CATALOG;
@@ -58,27 +59,29 @@ export class ListEditorialComponent {
   }
 
   ngAfterViewInit(): void {
-    this.findByName(
-      BibliotecaConstant.VC_EMTY,
-      BibliotecaConstant.PAGE_NRO_INITIAL,
-      BibliotecaConstant.PAGE_SIZE_INITIAL
-    );
-    this.matSort.sortChange.subscribe(() => (this.matPaginator.pageIndex = 0));
-    merge(this.matSort.sortChange, this.matPaginator.page)
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    merge(this.sort.sortChange, this.paginator.page)
       .pipe(
+        startWith({}),
         switchMap(() => {
+          this.isLoadingResults = true;
           return this._editorialService.findByName(
             this.search ? this.search : '',
-            this.matPaginator.pageIndex,
-            this.matPaginator.pageSize
+            this.paginator.pageIndex,
+            this.paginator.pageSize
           );
+        }),
+        map((data) => {
+          if (data === null) {
+            return [];
+          }
+          this.isLoadingResults = false;
+          this.totalElements = data.totalElements;
+          this.pageSize = data.size;
+          return data.content;
         })
       )
-      .subscribe((data: any) => {
-        this.lstEditorial = data.content;
-        this.lstDataSource = new MatTableDataSource(this.lstEditorial);
-        this.totalElements = data.totalElements;
-      });
+      .subscribe((data: any) => (this.lstEditorial = data));
   }
 
   ngOnDestroy(): void {
@@ -105,14 +108,22 @@ export class ListEditorialComponent {
   }
 
   public findByName(name: string, page: number, size: number): void {
+    this.onclearLstEditorial();
+    this.isLoadingResults = true;
     this.subscriptios.push(
       this._editorialService
         .findByName(name, page, size)
-        .subscribe((data: any) => {
-          this.lstEditorial = data.content;
-          this.lstDataSource = new MatTableDataSource(this.lstEditorial);
-          this.totalElements = data.totalElements;
-        })
+        .pipe(
+          map((data: PageDTO<EditorialDTO>) => {
+            this.isLoadingResults = false;
+            this.totalElements = data.totalElements;
+            this.pageSize = data.size;
+            this.paginator.pageSize = data.size;
+            this.paginator.pageIndex = data.number;
+            return data.content;
+          })
+        )
+        .subscribe((data: any) => (this.lstEditorial = data))
     );
   }
 
@@ -177,19 +188,24 @@ export class ListEditorialComponent {
   }
 
   public findById(id: number): void {
+    this.onclearLstEditorial();
     this.subscriptios.push(
-      this._editorialService.findById(id).subscribe(
-        (data: any) => {
-          this.editorial = data;
-          this.onclearLstEditorial();
-          this.lstEditorial.push(this.editorial);
-          this.lstDataSource = new MatTableDataSource(this.lstEditorial);
-          this.totalElements = this.lstEditorial.length;
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error);
-        }
-      )
+      this._editorialService
+        .findById(id)
+        .pipe(
+          map((data) => {
+            let lstEditorial: EditorialDTO[] = [];
+            lstEditorial.push(data);
+            this.totalElements = lstEditorial.length;
+            return lstEditorial;
+          })
+        )
+        .subscribe(
+          (data: any) => (this.lstEditorial = data),
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        )
     );
   }
 }

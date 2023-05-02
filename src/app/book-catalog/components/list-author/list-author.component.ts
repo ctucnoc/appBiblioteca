@@ -2,10 +2,9 @@ import { Component, ViewChild, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { AddAuthorComponent } from '../add-author/add-author.component';
 import { AuthorService } from 'src/app/shared/service/api/Author.service';
-import { merge, switchMap } from 'rxjs';
+import { map, merge, startWith, switchMap } from 'rxjs';
 import { AuthorDTO } from 'src/app/shared/model/response/AuthorDTO';
 import { AuthorDTORequest } from 'src/app/shared/model/request/AuthorDTORequest';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -13,6 +12,8 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from 'src/app/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PageDTO } from 'src/app/shared/model/response/PageDTO';
+import { BibliotecaConstant } from 'src/app/shared/constants/BibliotecaConstant';
 
 @Component({
   selector: 'app-list-author',
@@ -32,12 +33,11 @@ export class ListAuthorComponent {
   private _authorService = inject(AuthorService);
 
   public lstAuthor: AuthorDTO[] = [];
-  public lstMatDataSource!: MatTableDataSource<any>;
   public lstColumsTable: string[] = ['ID', 'NOMBRE', 'APELLIDOS', 'SELECCIONE'];
   public searchKey!: string;
   public title!: string;
   public pageSize: number = 5;
-  public totalElements!: number;
+  public totalElements?: number;
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(MatPaginator) matPaginator!: MatPaginator;
 
@@ -50,27 +50,34 @@ export class ListAuthorComponent {
     this.matSort.sortChange.subscribe(() => (this.matPaginator.pageIndex = 0));
     merge(this.matSort.sortChange, this.matPaginator.page)
       .pipe(
+        startWith(() => {}),
         switchMap(() => {
           return this._authorService.findByName(
             this.searchKey ? this.searchKey : '',
             this.matPaginator.pageIndex,
             this.matPaginator.pageSize
           );
+        }),
+        map((data: PageDTO<AuthorDTO>) => {
+          this.totalElements = data.totalElements;
+          return data.content;
         })
       )
-      .subscribe((data: any) => {
-        this.lstAuthor = data.content;
-        this.lstMatDataSource = new MatTableDataSource(this.lstAuthor);
-        this.totalElements = data.totalElements;
-      });
+      .subscribe((data: any) => (this.lstAuthor = data));
   }
 
   public findByAuthorName(name: string, page: number, size: number): void {
-    this._authorService.findByName(name, page, size).subscribe((data: any) => {
-      this.lstAuthor = data.content;
-      this.lstMatDataSource = new MatTableDataSource(this.lstAuthor);
-      this.totalElements = data.totalElements;
-    });
+    this._authorService
+      .findByName(name, page, size)
+      .pipe(
+        map((data: PageDTO<AuthorDTO>) => {
+          this.totalElements = data.totalElements;
+          this.matPaginator.pageIndex = data.number;
+          this.matPaginator.pageSize = data.size;
+          return data.content;
+        })
+      )
+      .subscribe((data: any) => (this.lstAuthor = data));
   }
 
   public onSearch(event: any): void {
@@ -98,7 +105,11 @@ export class ListAuthorComponent {
   public onEraser(): void {
     this.onCloseKeyWord();
     this.onCloseLstAuthor();
-    this.findByAuthorName('', 0, 5);
+    this.findByAuthorName(
+      BibliotecaConstant.VC_EMTY,
+      BibliotecaConstant.PAGE_NRO_INITIAL,
+      BibliotecaConstant.PAGE_SIZE_INITIAL
+    );
   }
 
   public onCloseKeyWord(): void {

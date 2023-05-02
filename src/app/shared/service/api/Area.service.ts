@@ -3,6 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AreaDTORequest } from '../../model/request/AreaDTORequest';
+import { PageDTO } from '../../model/response/PageDTO';
+import { AreaDTO } from '../../model/response/AreaDTO';
 @Injectable({
   providedIn: 'root',
 })
@@ -13,13 +15,13 @@ export class AreaService {
     description: string,
     page: number,
     size: number
-  ): Observable<any> {
+  ): Observable<PageDTO<AreaDTO>> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('description', description);
     queryParams = queryParams.append('page', page);
     queryParams = queryParams.append('size', size);
-    queryParams = queryParams.append('field', '');
-    queryParams = queryParams.append('order', '');
+    queryParams = queryParams.append('field', 'id');
+    queryParams = queryParams.append('order', '1');
     return this._httpClient.get<any>(
       environment.urlBase + 'areas/area?' + queryParams
     );
@@ -36,7 +38,7 @@ export class AreaService {
     );
   }
 
-  public findById(id: number): Observable<any> {
+  public findById(id: number): Observable<AreaDTO> {
     return this._httpClient.get<any>(environment.urlBase + 'areas/area/' + id);
   }
 }

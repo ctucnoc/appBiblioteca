@@ -10,6 +10,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
 import { BibliotecaConstant } from 'src/app/shared/constants/BibliotecaConstant';
+import { UpperDirective } from 'src/app/shared/directive/input/upper.directive';
 import { AreaDTO } from 'src/app/shared/model/response/AreaDTO';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -24,6 +25,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    UpperDirective,
   ],
 })
 export class AddAreaComponent {
