@@ -3,7 +3,6 @@ import { AreaDTO } from './../../../shared/model/response/AreaDTO';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { BibliotecaConstant } from 'src/app/shared/constants/BibliotecaConstant';
 import { AreaDTORequest } from 'src/app/shared/model/request/AreaDTORequest';
 import { AreaService } from 'src/app/shared/service/api/Area.service';
@@ -15,6 +14,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from 'src/app/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageDTO } from 'src/app/shared/model/response/PageDTO';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { successNotification } from 'src/app/shared/config/LibraryConfig';
 
 @Component({
   selector: 'app-list-area',
@@ -32,6 +33,7 @@ import { PageDTO } from 'src/app/shared/model/response/PageDTO';
 export class ListAreaComponent {
   private _dialog = inject(MatDialog);
   private _areaService = inject(AreaService);
+  private _snackBar = inject(MatSnackBar);
 
   protected subscriptios: Array<Subscription> = new Array();
 
@@ -156,8 +158,8 @@ export class ListAreaComponent {
     this.subscriptios.push(
       this._areaService.save(area).subscribe(
         (data: any) => {
-          console.log(data);
           this.findById(data.id);
+          this.success('Correctamente Registrado');
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -183,15 +185,26 @@ export class ListAreaComponent {
   public findById(id: number): void {
     this.onclearLstEditorial();
     this.subscriptios.push(
-      this._areaService.findById(id).subscribe(
-        (data: any) => {
-          let area: AreaDTO = data;
-          this.lstArea.push(area);
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error);
-        }
-      )
+      this._areaService
+        .findById(id)
+        .pipe(
+          map((data: AreaDTO) => {
+            let lstArea: AreaDTO[] = [];
+            lstArea.push(data);
+            this.totalElements = lstArea.length;
+            return lstArea;
+          })
+        )
+        .subscribe(
+          (data: any) => (this.lstArea = data),
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        )
     );
+  }
+
+  public success(msg: string) {
+    successNotification(msg, this._snackBar);
   }
 }
