@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageDTO } from 'src/app/shared/model/response/PageDTO';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { successNotification } from 'src/app/shared/config/LibraryConfig';
+import { AlertService } from 'src/app/shared/service/Alert.service';
 
 @Component({
   selector: 'app-list-area',
@@ -34,6 +35,7 @@ export class ListAreaComponent {
   private _dialog = inject(MatDialog);
   private _areaService = inject(AreaService);
   private _snackBar = inject(MatSnackBar);
+  private _alertService = inject(AlertService);
 
   protected subscriptios: Array<Subscription> = new Array();
 
@@ -65,6 +67,7 @@ export class ListAreaComponent {
       .pipe(
         startWith({}),
         switchMap(() => {
+          this.loading('Cargando...');
           return this._areaService.findByDescription(
             this.search ? this.search : '',
             this.matPaginator.pageIndex,
@@ -73,6 +76,7 @@ export class ListAreaComponent {
         }),
         map((data: PageDTO<AreaDTO>) => {
           this.totalElements = data.totalElements;
+          this._alertService.close();
           return data.content;
         })
       )
@@ -95,9 +99,10 @@ export class ListAreaComponent {
 
     _dialogRef.afterClosed().subscribe((rpta) => {
       if (rpta.action === BibliotecaConstant.ACTION_UPDATE) {
-        this.update(rpta.id, rpta.editorial);
+        this.update(rpta.id, rpta.area);
       } else if (rpta.action === BibliotecaConstant.ACTION_ADD) {
-        this.save(rpta.editorial);
+        this.question(rpta.area);
+        //this.save(rpta.editorial);
       }
     });
   }
@@ -107,6 +112,7 @@ export class ListAreaComponent {
     page: number,
     size: number
   ): void {
+    this.loading('Cargando...');
     this.subscriptios.push(
       this._areaService
         .findByDescription(description, page, size)
@@ -115,6 +121,7 @@ export class ListAreaComponent {
             this.totalElements = data.totalElements;
             this.matPaginator.pageIndex = data.number;
             this.matPaginator.pageSize = data.size;
+            this._alertService.close();
             return data.content;
           })
         )
@@ -159,7 +166,10 @@ export class ListAreaComponent {
       this._areaService.save(area).subscribe(
         (data: any) => {
           this.findById(data.id);
-          this.success('Correctamente Registrado');
+          this._alertService.notification(
+            'Se registro correctamente',
+            BibliotecaConstant.VC_SUCCESS
+          );
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -206,5 +216,26 @@ export class ListAreaComponent {
 
   public success(msg: string) {
     successNotification(msg, this._snackBar);
+  }
+
+  public loading(text: string): void {
+    this._alertService.loading(text);
+  }
+
+  public question(area: AreaDTO): void {
+    this._alertService
+      .question(
+        BibliotecaConstant.TITLE_MODAL_QUESTION,
+        '¡No podrás revertir esto!',
+        true,
+        true,
+        'Aceptar',
+        'Cancelar'
+      )
+      .then((data: boolean) => {
+        if (data) {
+          this.save(area);
+        }
+      });
   }
 }

@@ -65,7 +65,7 @@ export class AddAreaComponent {
       : BibliotecaConstant.ACTION_ADD;
     this._dialogRef.close({
       id: this.frmArea.value.id,
-      editorial: this.frmArea.value,
+      area: this.frmArea.value,
       action: this.action,
     });
   }

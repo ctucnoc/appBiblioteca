@@ -54,14 +54,33 @@ table {
 */
 
 /* Estilos generales para todos los botones */
+
 .btn {
-  font-weight: bold;
-  border-radius: 20px;
+  background-color: #ffc107;
+  display: flex;
+  padding: 10px;
+  font-size: 16px;
+  line-height: 10px;
+  font-weight: 300;
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
 }
 
-/* Estilos para el botón con estilo primario */
-.btn-primary {
-  background-color: #007bff;
+/* Estilos para el botón de confirmacion */
+.btn-confirmation {
+  background-color: #28a745;
+  color: #fff;
+}
+
+/* Estilos para el botón de cancelar */
+.btn-cancel {
+  background-color: #dc3545;
   color: #fff;
 }
 
@@ -74,12 +93,6 @@ table {
 /* Estilos para el botón con estilo de éxito */
 .btn-success {
   background-color: #28a745;
-  color: #fff;
-}
-
-/* Estilos para el botón con estilo de peligro */
-.btn-danger {
-  background-color: #dc3545;
   color: #fff;
 }
 
