@@ -1,4 +1,10 @@
-<h2 mat-dialog-title>Registrar Sub Area</h2>
+<h2 mat-dialog-title>
+  {{
+    frmSubArea.controls["id"].value
+      ? "Actualizar Sub Area"
+      : "Registrar Sub Area"
+  }}
+</h2>
 <mat-divider></mat-divider>
 <mat-dialog-content class="mat-typography">
   <div class="container" [formGroup]="frmSubArea">
@@ -10,6 +16,7 @@
           matInput
           placeholder="Nombre"
           formControlName="description"
+          appUpper
         />
         <mat-error *ngIf="frmSubArea.get('description')?.hasError('required')">
           Por favor, ingrese un descripción

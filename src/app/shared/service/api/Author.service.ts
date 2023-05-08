@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthorDTORequest } from '../../model/request/AuthorDTORequest';
+import { AuthorDTO } from '../../model/response/AuthorDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +38,12 @@ export class AuthorService {
     return this._httpCLient.put<any>(
       environment.urlBase + 'authors/author/' + id,
       author
+    );
+  }
+
+  public findById(id: number): Observable<AuthorDTO> {
+    return this._httpCLient.get<any>(
+      environment.urlBase + `authors/author/${id}`
     );
   }
 }

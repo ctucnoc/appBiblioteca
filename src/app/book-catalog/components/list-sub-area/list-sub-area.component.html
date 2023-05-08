@@ -12,38 +12,61 @@
         mat-raised-button
         (click)="onCreater()"
         [disabled]="onDisabledPlus()"
+        matTooltip="Registrar"
       >
         <mat-icon svgIcon="plus"></mat-icon>
       </button>
     </div>
     <div class="mr-2">
-      <button class="btn-raised" mat-raised-button (click)="onEraser()">
+      <button
+        type="reset"
+        class="btn-raised"
+        mat-raised-button
+        (click)="onEraser()"
+        matTooltip="Limpiar"
+      >
         <mat-icon svgIcon="eraser"></mat-icon>
       </button>
     </div>
     <div class="w-60">
       <mat-form-field class="full-width" appearance="outline">
-        <mat-label>Busqueda Avanzada</mat-label>
+        <mat-label>Búsqueda por descripcion del Area</mat-label>
         <input
           type="text"
           matInput
-          placeholder="Busqueda Avanzada"
-          (keydown.enter)="onSearch($event)"
+          placeholder="Búsqueda por descripcion del Area"
+          (input)="onSearch($event)"
           formControlName="description"
           autocomplete="off"
+          [matAutocomplete]="auto"
+          appUpper
         />
         <button
           type="reset"
           mat-icon-button
           matSuffix
           *ngIf="isFlagDescription()"
-          (click)="clear()"
+          (click)="onEraser()"
         >
           <mat-icon svgIcon="cancel"></mat-icon>
         </button>
         <button matSuffix mat-icon-button>
           <mat-icon svgIcon="search"></mat-icon>
         </button>
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let area of filterAreas$ | async"
+            (click)="onSelect(area)"
+          >
+            {{ area.description }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="frmArea.get('description')?.hasError('required')">
+          Por favor, ingrese un descripción
+        </mat-error>
+        <mat-error *ngIf="frmArea.get('description')?.hasError('minlength')">
+          Por favor, ingrese más caracteres para la búsqueda
+        </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -51,7 +74,7 @@
 <div class="container">
   <br />
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="lstDataSource" matSort>
+    <table mat-table [dataSource]="lstSubArea" matSort>
       <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
 
@@ -76,16 +99,6 @@
       </ng-container>
 
       <!-- Name Column -->
-      <ng-container matColumnDef="AREA">
-        <th mat-header-cell fxFlex="30%" fxFlexAlign="center" *matHeaderCellDef>
-          AREA
-        </th>
-        <td mat-cell fxFlex="30%" *matCellDef="let element">
-          {{ element.area.description }}
-        </td>
-      </ng-container>
-
-      <!-- Name Column -->
       <ng-container matColumnDef="SELECCIONAR">
         <th
           mat-header-cell
@@ -97,7 +110,14 @@
           SELECCIONAR
         </th>
         <td mat-cell fxFlex="10%" *matCellDef="let row">
-          <button mat-icon-button matTooltip="Eliminar">
+          <button mat-icon-button matTooltip="Editar" (click)="onCreater(row)">
+            <mat-icon svgIcon="edit"></mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            matTooltip="Eliminar"
+            (click)="confirmationDelete(row)"
+          >
             <mat-icon svgIcon="delete"></mat-icon>
           </button>
         </td>
@@ -111,6 +131,7 @@
       [length]="totalElements"
       [pageSize]="5"
       [pageSizeOptions]="[5, 10, 15]"
+      showFirstLastButtons
     >
     </mat-paginator>
   </div>

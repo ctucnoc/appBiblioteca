@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
+import { UpperDirective } from 'src/app/shared/directive/input/upper.directive';
 import { AuthorDTO } from 'src/app/shared/model/response/AuthorDTO';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -23,6 +24,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    UpperDirective,
   ],
 })
 export class AddAuthorComponent {

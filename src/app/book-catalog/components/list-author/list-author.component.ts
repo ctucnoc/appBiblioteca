@@ -14,6 +14,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageDTO } from 'src/app/shared/model/response/PageDTO';
 import { BibliotecaConstant } from 'src/app/shared/constants/BibliotecaConstant';
+import { AlertService } from 'src/app/shared/service/Alert.service';
 
 @Component({
   selector: 'app-list-author',
@@ -31,22 +32,32 @@ import { BibliotecaConstant } from 'src/app/shared/constants/BibliotecaConstant'
 export class ListAuthorComponent {
   private _dialog = inject(MatDialog);
   private _authorService = inject(AuthorService);
+  private _alertService = inject(AlertService);
 
   public lstAuthor: AuthorDTO[] = [];
   public lstColumsTable: string[] = ['ID', 'NOMBRE', 'APELLIDOS', 'SELECCIONE'];
   public searchKey!: string;
   public title!: string;
+  public subtitle!: string;
+  public namePage!: string;
   public pageSize: number = 5;
   public totalElements?: number;
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(MatPaginator) matPaginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.title = 'Catalogo de Libros';
+    this.title = BibliotecaConstant.TITLE_PAGE_BOOK_CATALOG;
+    this.namePage = BibliotecaConstant.VC_ADMIN.concat(
+      ' ',
+      BibliotecaConstant.TITLE_PAGE_AUTHOR
+    );
+    this.subtitle = BibliotecaConstant.VC_SEARCH.concat(
+      ' ',
+      BibliotecaConstant.TITLE_PAGE_AUTHOR
+    );
   }
 
   ngAfterViewInit(): void {
-    this.findByAuthorName('', 0, 5);
     this.matSort.sortChange.subscribe(() => (this.matPaginator.pageIndex = 0));
     merge(this.matSort.sortChange, this.matPaginator.page)
       .pipe(
@@ -82,7 +93,11 @@ export class ListAuthorComponent {
 
   public onSearch(event: any): void {
     if (event.key === 'Enter' || event.keyCode === 'Enter') {
-      this.findByAuthorName(this.searchKey, 0, 5);
+      this.findByAuthorName(
+        this.searchKey,
+        BibliotecaConstant.PAGE_NRO_INITIAL,
+        BibliotecaConstant.PAGE_SIZE_INITIAL
+      );
     }
   }
 
@@ -94,10 +109,8 @@ export class ListAuthorComponent {
     dialogConfig.data = row;
     const dialogoRef = this._dialog.open(AddAuthorComponent, dialogConfig);
     dialogoRef.afterClosed().subscribe((rpta) => {
-      if (rpta.action === 'update') {
-        this.update(rpta.id, rpta.author);
-      } else if (rpta.action === 'add') {
-        this.save(rpta.author);
+      if (rpta) {
+        this.question(rpta);
       }
     });
   }
@@ -122,8 +135,11 @@ export class ListAuthorComponent {
   public save(author: AuthorDTORequest): void {
     this._authorService.save(author).subscribe(
       (data: any) => {
-        console.log(data);
-        alert('se registro');
+        this._alertService.notification(
+          BibliotecaConstant.TITLE_MODAL_SAVE,
+          BibliotecaConstant.VC_SUCCESS
+        );
+        this.findById(data.id);
       },
       (error: HttpErrorResponse) => {
         console.log(error);
@@ -135,11 +151,56 @@ export class ListAuthorComponent {
     this._authorService.update(id, author).subscribe(
       (data: any) => {
         console.log(data);
-        alert('se actualizo');
+        this._alertService.notification(
+          BibliotecaConstant.TITLE_MODAL_UPDATE,
+          BibliotecaConstant.VC_SUCCESS
+        );
+        this.findById(data.id);
       },
       (error: HttpErrorResponse) => {
         console.log(error);
       }
     );
+  }
+
+  public findById(id: number): void {
+    this._authorService
+      .findById(id)
+      .pipe(
+        map((data: AuthorDTO) => {
+          return [data];
+        })
+      )
+      .subscribe(
+        (data: AuthorDTO[]) => (this.lstAuthor = data),
+        (error: HttpErrorResponse) => {}
+      );
+  }
+
+  public loading(text: string): void {
+    this._alertService.loading(text);
+  }
+
+  public question(response: any): void {
+    this._alertService
+      .question(
+        response.action === BibliotecaConstant.ACTION_ADD
+          ? BibliotecaConstant.TITLE_MODAL_QUESTION_SAVE
+          : BibliotecaConstant.TITLE_MODAL_QUESTION_UPDATE,
+        '¡No podrás revertir esto!',
+        true,
+        true,
+        'Aceptar',
+        'Cancelar'
+      )
+      .then((data: boolean) => {
+        if (data) {
+          if (response.action === BibliotecaConstant.ACTION_ADD) {
+            this.save(response.author);
+          } else if (response.action === BibliotecaConstant.ACTION_UPDATE) {
+            this.update(response.id, response.author);
+          }
+        }
+      });
   }
 }

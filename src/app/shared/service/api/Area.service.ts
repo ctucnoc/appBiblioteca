@@ -41,4 +41,10 @@ export class AreaService {
   public findById(id: number): Observable<AreaDTO> {
     return this._httpClient.get<any>(environment.urlBase + 'areas/area/' + id);
   }
+
+  public findByDescriptionFilter(description: string): Observable<AreaDTO[]> {
+    return this._httpClient.get<AreaDTO[]>(
+      environment.urlBase + `areas/area/filter?description=${description}`
+    );
+  }
 }

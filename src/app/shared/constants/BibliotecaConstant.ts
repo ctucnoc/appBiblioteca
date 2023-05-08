@@ -12,8 +12,16 @@ export abstract class BibliotecaConstant {
   static readonly TITLE_PAGE_BOOK: string = 'Libro';
 
   //TITULOS PARA LOS MODALES
-  static readonly TITLE_MODAL_QUESTION: string =
+  static readonly TITLE_MODAL_QUESTION_SAVE: string =
     '¿Está seguro de crear un nuevo registro?';
+  static readonly TITLE_MODAL_QUESTION_UPDATE: string =
+    '¿Está seguro de actualizar el registro?';
+  static readonly TITLE_MODAL_QUESTION_DELETE: string =
+    '¿Está seguro de eliminar el registro?';
+  static readonly TITLE_MODAL_LOADING: string = 'Cargando...';
+  static readonly TITLE_MODAL_SAVE: string = 'Se Guardo Correctamente';
+  static readonly TITLE_MODAL_UPDATE: string = 'Se Actualizo Correctamente';
+  static readonly TITLE_MODAL_DELETE: string = 'Se Elimino Correctamente';
 
   // VALORES VACIOS
   static readonly VC_EMTY: string = '';

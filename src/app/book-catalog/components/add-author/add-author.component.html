@@ -12,6 +12,7 @@
           matInput
           placeholder="NOMBRE"
           formControlName="name"
+          appUpper
         />
         <mat-error *ngIf="formAuthor.get('name')?.hasError('required')">
           Por favor, ingrese un Nombre
@@ -26,6 +27,7 @@
           matInput
           placeholder="APELLIDOS"
           formControlName="lastName"
+          appUpper
         />
         <mat-error *ngIf="formAuthor.get('lastName')?.hasError('required')">
           Por favor, ingrese un correo

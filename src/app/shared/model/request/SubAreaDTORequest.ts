@@ -1,4 +1,4 @@
-export interface AreaDTORequest {
+export interface SubAreaDTORequest {
   description?: string;
   idArea?: number;
 }

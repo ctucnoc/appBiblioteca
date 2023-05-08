@@ -98,11 +98,8 @@ export class ListAreaComponent {
     const _dialogRef = this._dialog.open(AddAreaComponent, _dialogConfig);
 
     _dialogRef.afterClosed().subscribe((rpta) => {
-      if (rpta.action === BibliotecaConstant.ACTION_UPDATE) {
-        this.update(rpta.id, rpta.area);
-      } else if (rpta.action === BibliotecaConstant.ACTION_ADD) {
-        this.question(rpta.area);
-        //this.save(rpta.editorial);
+      if (rpta) {
+        this.question(rpta);
       }
     });
   }
@@ -167,7 +164,7 @@ export class ListAreaComponent {
         (data: any) => {
           this.findById(data.id);
           this._alertService.notification(
-            'Se registro correctamente',
+            BibliotecaConstant.TITLE_MODAL_SAVE,
             BibliotecaConstant.VC_SUCCESS
           );
         },
@@ -182,8 +179,11 @@ export class ListAreaComponent {
     this.subscriptios.push(
       this._areaService.upate(id, area).subscribe(
         (data: any) => {
-          console.log(data);
           this.findById(data.id);
+          this._alertService.notification(
+            BibliotecaConstant.TITLE_MODAL_UPDATE,
+            BibliotecaConstant.VC_SUCCESS
+          );
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -222,10 +222,12 @@ export class ListAreaComponent {
     this._alertService.loading(text);
   }
 
-  public question(area: AreaDTO): void {
+  public question(response: any): void {
     this._alertService
       .question(
-        BibliotecaConstant.TITLE_MODAL_QUESTION,
+        response.action === BibliotecaConstant.ACTION_ADD
+          ? BibliotecaConstant.TITLE_MODAL_QUESTION_SAVE
+          : BibliotecaConstant.TITLE_MODAL_QUESTION_UPDATE,
         '¡No podrás revertir esto!',
         true,
         true,
@@ -234,7 +236,11 @@ export class ListAreaComponent {
       )
       .then((data: boolean) => {
         if (data) {
-          this.save(area);
+          if (response.action === BibliotecaConstant.ACTION_ADD) {
+            this.save(response.area);
+          } else if (response.action === BibliotecaConstant.ACTION_UPDATE) {
+            this.update(response.id, response.area);
+          }
         }
       });
   }
