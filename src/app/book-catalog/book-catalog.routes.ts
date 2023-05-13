@@ -20,7 +20,7 @@ export const bookCatalogRoutes: Routes = [
           setting.name_app +
           '_' +
           setting.version_app +
-          ' - ' +
+          ' | ' +
           BibliotecaConstant.TITLE_PAGE_BOOK,
       },
       {
@@ -30,7 +30,7 @@ export const bookCatalogRoutes: Routes = [
           setting.name_app +
           '_' +
           setting.version_app +
-          ' - ' +
+          ' | ' +
           BibliotecaConstant.TITLE_PAGE_AUTHOR,
       },
       {
@@ -40,7 +40,7 @@ export const bookCatalogRoutes: Routes = [
           setting.name_app +
           '_' +
           setting.version_app +
-          ' - ' +
+          ' | ' +
           BibliotecaConstant.TITLE_PAGE_EDITORIAL,
       },
       {
@@ -50,7 +50,7 @@ export const bookCatalogRoutes: Routes = [
           setting.name_app +
           '_' +
           setting.version_app +
-          ' - ' +
+          ' | ' +
           BibliotecaConstant.TITLE_PAGE_AREA,
       },
       {
@@ -60,7 +60,7 @@ export const bookCatalogRoutes: Routes = [
           setting.name_app +
           '_' +
           setting.version_app +
-          ' - ' +
+          ' | ' +
           BibliotecaConstant.TITLE_PAGE_SUB_AREA,
       },
     ],

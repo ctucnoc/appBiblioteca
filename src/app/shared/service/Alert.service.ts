@@ -52,7 +52,13 @@ export class AlertService {
   }
 
   public notification(title: string, icon: any = 'success') {
-    Swal.fire({
+    const swalPersonalizado = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-confirmation',
+      },
+      buttonsStyling: false,
+    });
+    swalPersonalizado.fire({
       position: 'center',
       icon: icon,
       title: title,

@@ -41,4 +41,11 @@ export class HeaderComponent {
   public goToSubArea(): void {
     this._router.navigate(['book-catalog/sub-area']);
   }
+
+  public goToLibrary(): void {
+    this._router.navigate(['library-config/library']);
+  }
+  public goToZone(): void {
+    this._router.navigate(['library-config/zone']);
+  }
 }

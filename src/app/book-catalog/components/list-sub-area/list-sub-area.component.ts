@@ -223,7 +223,14 @@ export class ListSubAreaComponent {
           BibliotecaConstant.VC_SUCCESS
         );
       },
-      (error: HttpErrorResponse) => {}
+      (error: HttpErrorResponse) => {
+        if (error.status === 422) {
+          this._alertService.notification(
+            'Sub Area ya se encuentra registrado',
+            BibliotecaConstant.VC_ERROR
+          );
+        }
+      }
     );
   }
 

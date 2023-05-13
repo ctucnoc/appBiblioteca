@@ -21,6 +21,14 @@
     <button mat-menu-item (click)="goToSubArea()">Administrar Sub Area</button>
   </mat-menu>
 
+  <button mat-button [matMenuTriggerFor]="menuLibrary">Biblioteca</button>
+  <mat-menu #menuLibrary="matMenu">
+    <button mat-menu-item (click)="goToLibrary()">
+      Administrar Biblioteca
+    </button>
+    <button mat-menu-item (click)="goToZone()">Administrar Zona</button>
+  </mat-menu>
+
   <button mat-button [matMenuTriggerFor]="menuSecurity">Seguridad</button>
   <mat-menu #menuSecurity="matMenu">
     <button mat-menu-item (click)="goToUser()">Administrar Usuario</button>

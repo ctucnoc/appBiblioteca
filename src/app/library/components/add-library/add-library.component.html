@@ -1,0 +1,65 @@
+<h2 mat-dialog-title>
+  {{
+    frmLibrary.controls["id"].value
+      ? "Actualizar Biblioteca"
+      : "Registrar Biblioteca"
+  }}
+</h2>
+<mat-divider></mat-divider>
+<mat-dialog-content class="mat-typography">
+  <div class="container" [formGroup]="frmLibrary">
+    <div class="row">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Ingrese Nombre</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Ingrese Nombre"
+          formControlName="name"
+          appUpper
+        />
+        <mat-error> Por favor, ingrese un nombre </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Ingrese Descripción</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Ingrese Descripción"
+          formControlName="description"
+          appUpper
+        />
+        <mat-error> Por favor, ingrese un descripción </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Ingrese Dirección</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Ingrese Dirección"
+          formControlName="address"
+          appUpper
+        />
+        <mat-error> Por favor, ingrese un Dirección </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+  <button type="button" mat-button mat-dialog-close (click)="onClose()">
+    Cerrar
+  </button>
+  <button
+    type="submit"
+    mat-button
+    [disabled]="onDisabled()"
+    (click)="onSubmit()"
+  >
+    Enviar
+  </button>
+</mat-dialog-actions>

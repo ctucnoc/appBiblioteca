@@ -1,5 +1,14 @@
+import { inject } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import {
+  HttpRequest,
+  HttpHandlerFn,
+  HttpErrorResponse,
+} from '@angular/common/http';
+import { catchError, throwError } from 'rxjs';
+import { AlertService } from '../service/Alert.service';
+import { BibliotecaConstant } from '../constants/BibliotecaConstant';
 
 const getRangeLabel = (page: number, pageSize: number, length: number) => {
   if (length == 0 || pageSize == 0) {
@@ -35,3 +44,28 @@ const configSnackBar: MatSnackBarConfig = {
   horizontalPosition: 'center',
   verticalPosition: 'bottom',
 };
+
+export function ErrorInterceptor(
+  requet: HttpRequest<any>,
+  next: HttpHandlerFn
+) {
+  const alertService = inject(AlertService);
+  console.log('Init interceptor -> {} ' + requet);
+  return next(requet).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 500) {
+        alertService.notification(
+          BibliotecaConstant.TITLE_REQUEST_HTTP_SERVER_ERROR,
+          BibliotecaConstant.VC_ERROR
+        );
+      }
+      if (error.status === 404) {
+        alertService.notification(
+          BibliotecaConstant.TITLE_REQUEST_HTTP_CLIENT_ERROR_NOT_FOUND,
+          BibliotecaConstant.VC_ERROR
+        );
+      }
+      return throwError(error);
+    })
+  );
+}

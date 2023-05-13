@@ -28,4 +28,10 @@ export const coreRoutes: Routes = [
     loadChildren: () =>
       import('../security/security.reotes').then((m) => m.securityRoutes),
   },
+  {
+    path: 'library-config',
+    component: CorePrivateLayoutComponent,
+    loadChildren: () =>
+      import('../library/library.routes').then((m) => m.libraryRoutes),
+  },
 ];
