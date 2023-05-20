@@ -244,4 +244,35 @@ export class ListAreaComponent {
         }
       });
   }
+
+  public onDelete(id: any): void {
+    this._areaService.delete(id).subscribe((data: any) => {
+      this.findByDescription(
+        BibliotecaConstant.VC_EMTY,
+        BibliotecaConstant.PAGE_NRO_INITIAL,
+        BibliotecaConstant.PAGE_SIZE_INITIAL
+      );
+      this._alertService.notification(
+        BibliotecaConstant.TITLE_MODAL_DELETE,
+        BibliotecaConstant.VC_SUCCESS
+      );
+    });
+  }
+
+  public confirmationDelete(row: AreaDTO): void {
+    this._alertService
+      .question(
+        BibliotecaConstant.TITLE_MODAL_QUESTION_DELETE,
+        '¡No podrás revertir esto!',
+        true,
+        true,
+        'Aceptar',
+        'Cancelar'
+      )
+      .then((data: boolean) => {
+        if (data) {
+          this.onDelete(row.id);
+        }
+      });
+  }
 }

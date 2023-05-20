@@ -6,9 +6,17 @@ import {
   HttpHandlerFn,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { catchError, throwError } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { AlertService } from '../service/Alert.service';
 import { BibliotecaConstant } from '../constants/BibliotecaConstant';
+import { BookService } from '../service/api/Book.service';
+import {
+  AsyncValidatorFn,
+  FormControl,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 
 const getRangeLabel = (page: number, pageSize: number, length: number) => {
   if (length == 0 || pageSize == 0) {
@@ -68,4 +76,36 @@ export function ErrorInterceptor(
       return throwError(error);
     })
   );
+}
+
+export function validateIsbn(_bookService: BookService): AsyncValidatorFn {
+  return (
+    control: AbstractControl
+  ): Observable<{ [key: string]: any } | null> => {
+    return _bookService.existsByIsbn(control.value).pipe(
+      map((data: boolean) => {
+        return data ? { isbn: true } : null;
+      })
+    );
+  };
+}
+
+export function validatePassword(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let newPassword = control.parent?.get('newPassword')?.value;
+    let repiteNewPassword = control.parent?.get('repiteNewPassword')?.value;
+    console.log(newPassword);
+    console.log(repiteNewPassword);
+
+    return newPassword !== repiteNewPassword ? { passwordMatch: true } : null;
+  };
+}
+
+export function validateCaracterSPacial(): ValidatorFn {
+  const caracter = /[!@#$%^&*(),.?":{}|<>]/;
+  return (control: AbstractControl): ValidationErrors | null => {
+    console.log(control.value);
+
+    return caracter.test(control.value) ? { isError: true } : null;
+  };
 }

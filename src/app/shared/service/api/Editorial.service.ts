@@ -47,4 +47,10 @@ export class EditorialService {
       environment.urlBase + 'editorials/editorial/' + id
     );
   }
+
+  public delete(id: number): Observable<any> {
+    return this._httpClient.delete<any>(
+      environment.urlBase + 'editorials/editorial/' + id
+    );
+  }
 }

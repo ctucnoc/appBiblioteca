@@ -189,5 +189,17 @@ export class IconModule {
         'assets/icons/print.svg'
       )
     );
+    this._matIconRegister.addSvgIcon(
+      'author',
+      this._domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/author.svg'
+      )
+    );
+    this._matIconRegister.addSvgIcon(
+      'password',
+      this._domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/password.svg'
+      )
+    );
   }
 }

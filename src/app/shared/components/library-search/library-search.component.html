@@ -1,0 +1,26 @@
+<mat-dialog-content class="mat-typography">
+  <div class="container">
+    <div class="mat-elevation-z8">
+      <mat-selection-list #shoes [multiple]="false" matSort>
+        <mat-list-option *ngFor="let object of lstGeneric">
+          <h3 matLine>{{ object.id }}</h3>
+          <p matLine>
+            {{ object.description }}
+          </p>
+        </mat-list-option>
+      </mat-selection-list>
+      <mat-paginator
+        [length]="0"
+        [pageSizeOptions]="[3]"
+        [pageSize]="3"
+        showFirstLastButtons
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+  <button type="button" mat-button mat-dialog-close>Cerrar</button>
+  <button type="submit" mat-button>Enviar</button>
+</mat-dialog-actions>

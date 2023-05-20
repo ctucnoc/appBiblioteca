@@ -1,0 +1,30 @@
+<mat-dialog-content class="mat-typography">
+  <div class="mat-elevation-z8">
+    <mat-selection-list
+      #shoes
+      [multiple]="false"
+      matSort
+      (selectionChange)="selectRow($event)"
+    >
+      <mat-list-option *ngFor="let subarea of lstSubarea" [value]="subarea">
+        <p matLine>
+          {{ subarea.description }}
+        </p>
+      </mat-list-option>
+    </mat-selection-list>
+    <mat-paginator
+      [length]="totalElements"
+      [pageSizeOptions]="[3]"
+      [pageSize]="3"
+      showFirstLastButtons
+    >
+    </mat-paginator>
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+  <button type="button" mat-button mat-dialog-close>Cerrar</button>
+  <button type="submit" mat-button [disabled]="blDisabled" (click)="onSend()">
+    Enviar
+  </button>
+</mat-dialog-actions>

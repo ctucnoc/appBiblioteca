@@ -14,6 +14,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from 'src/app/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageDTO } from 'src/app/shared/model/response/PageDTO';
+import { AlertService } from 'src/app/shared/service/Alert.service';
 
 @Component({
   selector: 'app-list-editorial',
@@ -31,6 +32,7 @@ import { PageDTO } from 'src/app/shared/model/response/PageDTO';
 export class ListEditorialComponent {
   private _dialog = inject(MatDialog);
   private _editorialService = inject(EditorialService);
+  private _alertService = inject(AlertService);
 
   protected subscriptios: Array<Subscription> = new Array();
   public editorial!: EditorialDTO;
@@ -207,5 +209,36 @@ export class ListEditorialComponent {
           }
         )
     );
+  }
+
+  public onDelete(id: any): void {
+    this._editorialService.delete(id).subscribe((data: any) => {
+      this.findByName(
+        BibliotecaConstant.VC_EMTY,
+        BibliotecaConstant.PAGE_NRO_INITIAL,
+        BibliotecaConstant.PAGE_SIZE_INITIAL
+      );
+      this._alertService.notification(
+        BibliotecaConstant.TITLE_MODAL_DELETE,
+        BibliotecaConstant.VC_SUCCESS
+      );
+    });
+  }
+
+  public confirmationDelete(row: EditorialDTO): void {
+    this._alertService
+      .question(
+        BibliotecaConstant.TITLE_MODAL_QUESTION_DELETE,
+        '¡No podrás revertir esto!',
+        true,
+        true,
+        'Aceptar',
+        'Cancelar'
+      )
+      .then((data: boolean) => {
+        if (data) {
+          this.onDelete(row.id);
+        }
+      });
   }
 }

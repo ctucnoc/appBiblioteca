@@ -20,8 +20,8 @@ export class AuthorService {
     queryParameters = queryParameters.append('key_word', key_word);
     queryParameters = queryParameters.append('page', page);
     queryParameters = queryParameters.append('size', size);
-    queryParameters = queryParameters.append('field', '');
-    queryParameters = queryParameters.append('order', '');
+    queryParameters = queryParameters.append('field', 'id');
+    queryParameters = queryParameters.append('order', '1');
     return this._httpCLient.get<any>(
       environment.urlBase + 'authors/author?' + queryParameters
     );
@@ -44,6 +44,12 @@ export class AuthorService {
   public findById(id: number): Observable<AuthorDTO> {
     return this._httpCLient.get<any>(
       environment.urlBase + `authors/author/${id}`
+    );
+  }
+
+  public delete(id: number): Observable<any> {
+    return this._httpCLient.delete<any>(
+      environment.urlBase + 'authors/author/' + id
     );
   }
 }

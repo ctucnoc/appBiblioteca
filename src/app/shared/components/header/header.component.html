@@ -36,11 +36,36 @@
   </mat-menu>
 
   <span class="example-spacer"></span>
-  <button
-    mat-icon-button
-    class="example-icon"
-    aria-label="Example icon-button with share icon"
-  >
-    <mat-icon svgIcon="sign_out"></mat-icon>
-  </button>
+  <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+    <ul
+      fxLayout="row"
+      fxLayoutGap="20px"
+      color="primary"
+      style="list-style-type: none"
+    >
+      <li class="lista-menu">
+        <a
+          class="a-decorate"
+          href="javascript:void(0)"
+          [matMenuTriggerFor]="user"
+        >
+          <mat-icon svgIcon="caret_down"></mat-icon>
+          <mat-menu #user="matMenu">
+            <button mat-menu-item>
+              <mat-icon svgIcon="info"></mat-icon>
+              <span>Acerca de SysBiblioteca</span>
+            </button>
+            <button mat-menu-item routerLink="/security/change-password">
+              <mat-icon svgIcon="password"></mat-icon>
+              <span>Cambiar Contraseña</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon svgIcon="sign_out"></mat-icon>
+              <span>Cerrar Sessión</span>
+            </button>
+          </mat-menu>
+        </a>
+      </li>
+    </ul>
+  </div>
 </mat-toolbar>

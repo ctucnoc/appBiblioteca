@@ -1,0 +1,12 @@
+<div>
+  <button mat-button [matMenuTriggerFor]="menuCatalog">
+    {{ menu.summary }}
+  </button>
+  <mat-menu #menuCatalog="matMenu">
+    <ng-container *ngFor="let item of menu.children">
+      <button mat-menu-item>
+        {{ item.displayName }}
+      </button>
+    </ng-container>
+  </mat-menu>
+</div>

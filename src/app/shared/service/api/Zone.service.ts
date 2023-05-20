@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ZoneDTO } from '../../model/response/ZoneDTO';
 import { environment } from 'src/environments/environment';
 import { PageDTO } from '../../model/response/PageDTO';
+import { ZoneDTORequest } from '../../model/request/ZoneDTORequest';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,23 @@ export class ZoneService {
     queryParams = queryParams.append('order', '1');
     return this._httpClient.get<PageDTO<ZoneDTO>>(
       environment.urlBase + `zones/zone/filter/${idLibrary}?` + queryParams
+    );
+  }
+
+  public save(zone: ZoneDTORequest): Observable<any> {
+    return this._httpClient.post<any>(environment.urlBase + 'zones/zone', zone);
+  }
+
+  public upate(id: number, zone: ZoneDTORequest): Observable<any> {
+    return this._httpClient.put<any>(
+      environment.urlBase + 'zones/zone/' + id,
+      zone
+    );
+  }
+
+  public delete(id: number): Observable<any> {
+    return this._httpClient.delete<any>(
+      environment.urlBase + 'zones/zone/' + id
     );
   }
 }

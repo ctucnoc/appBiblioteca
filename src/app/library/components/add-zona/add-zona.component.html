@@ -1,1 +1,43 @@
-<p>add-zona works!</p>
+<h2 mat-dialog-title>
+  {{ frmZone.controls["id"].value ? "Actualizar Zona" : "Registrar Zona" }}
+</h2>
+<mat-divider></mat-divider>
+<mat-dialog-content class="mat-typography">
+  <div class="container" [formGroup]="frmZone">
+    <div class="row">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>INGRESE DESCRIPCIÓN DE LA ZONA</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="INGRESE DESCRIPCIÓN DE LA ZONA"
+          formControlName="description"
+          appUpper
+        />
+        <mat-error *ngIf="frmZone.get('description')?.hasError('required')">
+          Por favor, ingrese un descripción
+        </mat-error>
+        <mat-error *ngIf="frmZone.get('description')?.hasError('minlength')">
+          Por favor, el tamaño minimo es de 5 caracteres
+        </mat-error>
+        <mat-error *ngIf="frmZone.get('description')?.hasError('maxlength')">
+          Por favor, el tamaño maximo es de 30 caracteres
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+  <button type="button" mat-button mat-dialog-close (click)="onClose()">
+    Cerrar
+  </button>
+  <button
+    type="submit"
+    mat-button
+    [disabled]="onDisabled()"
+    (click)="onSubmit()"
+  >
+    Enviar
+  </button>
+</mat-dialog-actions>

@@ -58,7 +58,7 @@
             *ngFor="let area of filterAreas$ | async"
             (click)="onSelect(area)"
           >
-            {{ area.description }}
+            {{ area.description | uppercase }}
           </mat-option>
         </mat-autocomplete>
         <mat-error *ngIf="frmArea.get('description')?.hasError('required')">
@@ -94,7 +94,7 @@
           DESCRIPCIÓN
         </th>
         <td mat-cell fxFlex="40%" *matCellDef="let element">
-          {{ element.description }}
+          {{ element.description | uppercase }}
         </td>
       </ng-container>
 

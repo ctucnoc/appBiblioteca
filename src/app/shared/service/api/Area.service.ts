@@ -47,4 +47,10 @@ export class AreaService {
       environment.urlBase + `areas/area/filter?description=${description}`
     );
   }
+
+  public delete(id: number): Observable<any> {
+    return this._httpClient.delete<any>(
+      environment.urlBase + 'areas/area/' + id
+    );
+  }
 }

@@ -73,7 +73,11 @@
           <button mat-icon-button matTooltip="Editar" (click)="onCreater(row)">
             <mat-icon svgIcon="edit"></mat-icon>
           </button>
-          <button mat-icon-button matTooltip="Eliminar">
+          <button
+            mat-icon-button
+            matTooltip="Eliminar"
+            (click)="confirmationDelete(row)"
+          >
             <mat-icon svgIcon="delete"></mat-icon>
           </button>
         </td>

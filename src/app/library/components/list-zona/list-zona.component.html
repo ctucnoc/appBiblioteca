@@ -90,7 +90,7 @@
       <ng-container matColumnDef="DESCRIPTION">
         <th mat-header-cell *matHeaderCellDef>DESCRIPCIÓN</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.description }}
+          {{ element.description | uppercase }}
         </td>
       </ng-container>
 

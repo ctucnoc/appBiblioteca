@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -19,15 +19,12 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [CommonModule, SharedModule, MaterialModule, ReactiveFormsModule],
 })
 export class SingInComponent {
+  private _router = inject(Router);
   public hide: boolean = true;
   public msgError!: string;
   public frmSingIn!: FormGroup;
   @ViewChild('password') password!: ElementRef;
-  constructor(
-    private _title: Title,
-    private _formBuilder: FormBuilder,
-    private _router: Router
-  ) {
+  constructor(private _title: Title, private _formBuilder: FormBuilder) {
     console.log('crce constructor -> {}');
   }
 
@@ -42,5 +39,9 @@ export class SingInComponent {
   }
   public getIcon(): string {
     return this.hide ? 'visibility' : 'visibility_off';
+  }
+
+  public onSignIn(): void {
+    this._router.navigate(['home/dashboard']);
   }
 }

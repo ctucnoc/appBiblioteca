@@ -1,0 +1,168 @@
+<h2 mat-dialog-title>
+  {{ frmBook.controls["id"].value ? "Actualizar Libro" : "Registrar Libro" }}
+</h2>
+<mat-divider></mat-divider>
+<mat-dialog-content class="mat-typography">
+  <div class="container" [formGroup]="frmBook">
+    <div class="row">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>INGRESE TITULO</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="INGRESE TITULO"
+          formControlName="title"
+          appUpper
+        />
+        <mat-error *ngIf="frmBook.get('title')?.hasError('required')">
+          Por favor, ingrese un titulo
+        </mat-error>
+        <mat-error *ngIf="frmBook.get('title')?.hasError('isError')">
+          Caracter no esta permitido
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>INGRESE SUB TITULO</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="INGRESE SUB TITULO"
+          formControlName="subTitle"
+          appUpper
+        />
+        <mat-error> Por favor, ingrese un sub titulo </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>INGRESE DESCRIPCIÓN DEL LIBRO</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="INGRESE DESCRIPCIÓN DEL LIBRO"
+          formControlName="description"
+          appUpper
+        />
+        <mat-error> Por favor, ingrese un descripción </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-grid-list cols="3" rowHeight="90px" class="w-100">
+        <mat-grid-tile>
+          <mat-form-field class="w-100 pr-1" appearance="outline">
+            <mat-label>INGRESE ISBN</mat-label>
+            <input
+              type="text"
+              matInput
+              placeholder="INGRESE ISBN"
+              formControlName="isbn"
+              appUpper
+            />
+            <mat-error *ngIf="frmBook.get('isbn')?.hasError('required')">
+              Por favor, ingrese un isbn
+            </mat-error>
+            <mat-error *ngIf="frmBook.get('isbn')?.hasError('isbnError')">
+              por favor, cambie el ISBN
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100 pr-1" appearance="outline">
+            <mat-label>INGRESE AÑO PUBLICACIÓN</mat-label>
+            <input
+              type="number"
+              matInput
+              placeholder="INGRESE AÑO PUBLICACIÓN"
+              formControlName="yearPublication"
+            />
+            <mat-error> Por favor, ingrese año de publicación </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100 pr-1" appearance="outline">
+            <mat-label>INGRESE CANTIDAD DE PAGINAS</mat-label>
+            <input
+              type="number"
+              matInput
+              placeholder="INGRESE CANTIDAD DE PAGINAS"
+              formControlName="numberPage"
+            />
+            <mat-error> Por favor, ingrese la cantidad de páginas </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+    <div class="row">
+      <mat-grid-list cols="3" rowHeight="90px" class="w-100">
+        <mat-grid-tile>
+          <mat-form-field class="w-100 pr-1" appearance="outline">
+            <mat-label>SELECCIONE EDITORIAL</mat-label>
+            <input
+              type="text"
+              matInput
+              placeholder="SELECCIONE EDITORIAL"
+              formControlName="descripcionEditorial"
+              appUpper
+            />
+            <button matSuffix mat-icon-button (click)="onSearchComponent()">
+              <mat-icon svgIcon="search"></mat-icon>
+            </button>
+            <mat-error> Por favor, seleccione una editorial </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100 pr-1" appearance="outline">
+            <mat-label>SELECCIONE AREA</mat-label>
+            <input
+              type="text"
+              matInput
+              placeholder="SELECCIONE AREA"
+              formControlName="descriptionArea"
+              appUpper
+            />
+            <button matSuffix mat-icon-button (click)="onSearchComponentArea()">
+              <mat-icon svgIcon="search"></mat-icon>
+            </button>
+            <mat-error> Por favor, seleccione area </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100 pr-1" appearance="outline">
+            <mat-label>SELECCIONE SUB AREA</mat-label>
+            <input
+              type="text"
+              matInput
+              placeholder="SELECCIONE SUB AREA"
+              formControlName="descriptionSubArea"
+              appUpper
+            />
+            <button
+              matSuffix
+              mat-icon-button
+              (click)="onSearchComponentSubArea()"
+            >
+              <mat-icon svgIcon="search"></mat-icon>
+            </button>
+            <mat-error> Por favor, seleccione sub area </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+  <button type="button" mat-button mat-dialog-close (click)="onClose()">
+    Cerrar
+  </button>
+  <button
+    type="submit"
+    mat-button
+    [disabled]="onDisabled()"
+    (click)="onSubmit()"
+  >
+    Enviar
+  </button>
+</mat-dialog-actions>

@@ -26,12 +26,17 @@ export const coreRoutes: Routes = [
     path: 'security',
     component: CorePrivateLayoutComponent,
     loadChildren: () =>
-      import('../security/security.reotes').then((m) => m.securityRoutes),
+      import('../security/security.routes').then((m) => m.securityRoutes),
   },
   {
     path: 'library-config',
     component: CorePrivateLayoutComponent,
     loadChildren: () =>
       import('../library/library.routes').then((m) => m.libraryRoutes),
+  },
+  {
+    path: 'home',
+    component: CorePrivateLayoutComponent,
+    loadChildren: () => import('../home/home.routes').then((m) => m.homeRoutes),
   },
 ];
